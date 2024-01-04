@@ -1,55 +1,144 @@
-import OTP from "../models/OTP";
-import User from "../models/User";
-
+import OTP from "../models/OTP.js";
+import Profile from "../models/Profile.js";
+import User from "../models/User.js";
+const bcrypt = require('bcrypt');
 const otpGenerator = require("otp-generator")
 
 
 // send otp
-export const sendOTP = async(req,res)=>{
+export const sendOTP = async (req, res) => {
     try {
-        const {email} = req.body;
+        const { email } = req.body;
         // check if user already exist in db
-        const isPresent = await User.findOne({email});
-        if(isPresent){
+        const isPresent = await User.findOne({ email });
+        if (isPresent) {
             return res.status(401).json({
-                status:401,
-                message:"User already exist"
+                status: false,
+                message: "User already exist"
             })
         }
 
         // generate otp
-        let otp = otpGenerator.generate(6,{
-            lowerCaseAlphabets:false,
-            upperCaseAlphabets:false,
-            specialChars:false,
+        let otp = otpGenerator.generate(6, {
+            lowerCaseAlphabets: false,
+            upperCaseAlphabets: false,
+            specialChars: false,
         })
-        let result = await OTP.findOne({otp});
-        while(result){
-            otp = otpGenerator.generate(6,{
-                lowerCaseAlphabets:false,
-                upperCaseAlphabets:false,
-                specialChars:false,
+        let result = await OTP.findOne({ otp });
+        while (result) {
+            otp = otpGenerator.generate(6, {
+                lowerCaseAlphabets: false,
+                upperCaseAlphabets: false,
+                specialChars: false,
             })
-            result = await OTP.findOne({otp});
+            result = await OTP.findOne({ otp });
 
         }
         // store the otp in db
-        const otpPayload = {email,otp};
+        const otpPayload = { email, otp };
         const savedOTP = await OTP.create(otpPayload);
         console.log(savedOTP);
         res.status(200).json({
-            status:200,
-            message:`OTP has been send to ${email}`
+            status: false,
+            message: `OTP has been send to ${email}`
         })
-        
+
     } catch (error) {
-        console.log("Error in sendOTP : ",error.message);
+        console.log("Error in sendOTP : ", error.message);
         throw error;
-        
-        
+
+
     }
 }
 // sigin up
+export const signUp = async (req, res) => {
+    try {
+        // get request para 
+        const { firstName,
+            lastName,
+            password,
+            conformPassword,
+            email,
+            contactNumber,
+            accountType,
+            otp
+        } = req.body;
+        // check if they are empty
+        if (!firstName || !lastName || !password || !conformPassword || !email || !otp) {
+            return res.status(400).json({
+                status: false,
+                message: "Some Parameter are missing"
+            })
+        }
+        // check password and conformpassword
+        if (password !== conformPassword) {
+            res.status(400).json({
+                status: false,
+                message: "Password and conform password value does not match , please try again"
+            })
+        }
+
+        // check user already exist 
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(401).json({
+                status: false,
+                message: "User aleady exist , try with different name"
+            })
+        }
+        // find most rescent otp stored for user
+        const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+        if (recentOTP.lenght === 0) {
+            return res.status(400).json({
+                status: false,
+                message: "No OTP found"
+            })
+        }
+        else if (otp !== recentOTP.otp) {
+            return res.status(400).json({
+                status: false,
+                message: "Invaid OTP"
+            })
+        }
+        //hash password
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+        // create the user profile
+        const profileOfUser =await Profile.create({
+            gender:null,
+            dob:null,
+            about:null,
+            contactNumber,
+        })
+        const user = await User.create({
+            firstName,
+            lastName,
+            password:hash,
+            email,
+            contactNumber,
+            accountType,
+            additionalDetails:profileOfUser._id,
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
+        })
+        
+        res.status(200).json({
+            status:true,
+            message:"User has been created successfully",
+            user
+        })
+
+
+    } catch (error) {
+ console.log(error);
+ res.status(500).json({
+    status:false,
+    message:"User can not be created",
+   
+})
+ 
+    }
+}
 
 
 // login
