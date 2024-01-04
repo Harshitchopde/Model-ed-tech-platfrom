@@ -3,7 +3,7 @@ import Profile from "../models/Profile.js";
 import User from "../models/User.js";
 const bcrypt = require('bcrypt');
 const otpGenerator = require("otp-generator")
-
+const jwt = require('jsonwebtoken');
 
 // send otp
 export const sendOTP = async (req, res) => {
@@ -142,6 +142,43 @@ export const signUp = async (req, res) => {
 
 
 // login
-
+exports.login = async(req,res)=>{
+    // get data form req body
+    const {email,password} = req.body;
+    // validate user
+    const checkUser = await User.findOne({email}).populate("additionalDetails");
+    //user check existance
+    if(!checkUser){
+        return res.status(400).json({
+            status:false,
+            message:"User Not Found"
+        })
+    }
+    // check [password]
+    const match = await bcrypt.compare(password, checkUser.password);
+    if(!match){
+        return res.status(400).json({
+            status:false,
+            message:"Password is Incorrect!"
+        })
+    }
+    // create JWT token
+    const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,{
+        expiresIn:"2h"
+    });
+    checkUser.token = token
+    // create cookies
+    const options = {
+        httpOnly:true,
+        expires:new Date(Date.now() +3*24*60*60*1000)
+    }
+    res.cookie("access_token",token,options).status(200).json({
+        status:true,
+        message:"Login SuccessFull",
+        checkUser
+    })
+    
+   
+}
 
 //changePassword
