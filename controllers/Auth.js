@@ -182,3 +182,6 @@ exports.login = async(req,res)=>{
 }
 
 //changePassword
+exports.changePassword = (req,res)=>{
+    
+}
