@@ -41,7 +41,8 @@ const courseSchema = mongoose.Schema({
     },
     tag: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Tags"
+        ref: "Tags",
+        required:true,
     },
     studentEnrolled: [
         {
@@ -50,4 +51,4 @@ const courseSchema = mongoose.Schema({
         }
     ]
 })
-module.exports = mongoose.model("Course",courseContent);
+module.exports = mongoose.model("Course",courseSchema);
