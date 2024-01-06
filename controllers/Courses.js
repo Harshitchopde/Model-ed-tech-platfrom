@@ -46,7 +46,7 @@ exports.createCourse = async(req,res)=>{
         // Upload Image to Cloudinary
         const imageUpload = imageUploadToCloudinary(thumbnail,process.env.FOLDER_NAME);
         // create entry in db
-        const createEntry = await Course.create({
+        const newCourse = await Course.create({
             courseName,
             courseDesc,
             instructor:checkInstructor._id,
@@ -55,15 +55,59 @@ exports.createCourse = async(req,res)=>{
             thumbnail:imageUpload.secure_url,
             tag:tagsDetails._id,   
         })
+        // add the couse to the instructor user
+        await User.findByIdAndUpdate(checkInstructor._id,
+                                        {
+                                            $push:{
+                                                courses:newCourse._id
+                                            },
+                                           
+                                        }, {new:true})
+        // upate the tags schema  
+        await Tags.findByIdAndUpdate({_id:tagsDetails._id},
+                                        {
+                                            $push:{
+                                                courses:newCourse._id
+                                            }
+                                        },
+                                        {new:true})
         return res.status(200).json({
             status:true,
             message:"Course created successfully",
             createEntry
         })
     } catch (error) {
+        console.log(error);
+        
         return res.status(400).json({
             status:false,
             message:error.message,
         })
+    }
+}
+export const showAllCourse = async (req,res)=>{
+    try {
+        const allCourses = await Course.find({},{
+            courseName:true,
+            courseDesc:true,
+            instructor:true,
+            whatYouWillLearn:true,
+            price:true,
+            thumbnail:true,
+            tag:true,   
+        }).populate("instructor").exec();
+         // populate will replace the instructor field with actual instructor document
+         return res.status(200).json({
+            status:true,
+            message:"All Course fetch successfully",
+            allCourses
+        })
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(400).json({
+            status:false,
+            message:error.message,
+        }) 
     }
 }

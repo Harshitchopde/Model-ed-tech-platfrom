@@ -11,13 +11,13 @@ const tagSchema = mongoose.Schema({
         type:String,
      
     },
-    course:{
-        required:true,
+    courses:[{
+        // required:true,
         type:mongoose.Schema.Types.ObjectId,
         ref:"Course",
 
         
-    },
+    }],
   
 
 })
