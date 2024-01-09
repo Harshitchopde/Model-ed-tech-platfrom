@@ -103,7 +103,7 @@ export const showAllCourse = async (req,res)=>{
             allCourses
         })
     } catch (error) {
-        console.log(error);
+        console.log("Error in show all courses : ",error);
         
         return res.status(400).json({
             status:false,
