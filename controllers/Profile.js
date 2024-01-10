@@ -64,6 +64,7 @@ exports.deleteAccount = async(req,res)=>{
         // delete the profile
         const profile = await Profile.findByIdAndDelete(user.additionalDetails);
         //HW: unenrolled user from all the courses 
+        // Hw: how to schadule the task for delete the account
         // delete the account(user)
         const delUser = await User.findByIdAndDelete(user._id);
         return res.status(200).json({
