@@ -4,7 +4,7 @@ import User from "../models/User";
 export const updateProfile = async (req,res)=>{
     try {
         // get data 
-        const {gender,dob,about,contactNumber}= req.body;
+        const {gender,dob="",about="",contactNumber}= req.body;
         // get userid
         const userId = req.user.id;
         // validation 
@@ -36,6 +36,40 @@ export const updateProfile = async (req,res)=>{
             message:"Profile Update SuccessFully",
         })
         // return response
+    } catch (error) {
+        console.log("Error : ",error);
+        
+        return res.status(400).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+exports.deleteAccount = async(req,res)=>{
+    try {
+        //get id
+        const userId = req.user.id;
+        if(!userId)return res.status(400).json({
+            status:false,
+            message:"UserId Required"
+        })
+        // validate that user exist
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(400).json({
+                success:false,
+                message:"User  does not exist",
+            })
+        }
+        // delete the profile
+        const profile = await Profile.findByIdAndDelete(user.additionalDetails);
+        //HW: unenrolled user from all the courses 
+        // delete the account(user)
+        const delUser = await User.findByIdAndDelete(user._id);
+        return res.status(200).json({
+            success:true,
+            message:"Account Deleted SuccessFully",
+        })
     } catch (error) {
         console.log("Error : ",error);
         
