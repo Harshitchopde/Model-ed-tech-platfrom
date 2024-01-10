@@ -39,8 +39,9 @@ export const createSection =async (req,res)=>{
 }
 export const updateSection = async (req,res)=>{
     try {
-        const {updatedName,courseId,sectionId} = req.body;
-        if(!updatedName || !courseId){
+        const {updatedName} = req.body;
+        const {sectionId} = req.params;
+        if(!updatedName || !sectionId){
             return res.status(400).json({
                 success:false,
                 message:"Some field is missing",
@@ -71,7 +72,8 @@ export const updateSection = async (req,res)=>{
 export const deleteSection = async(req,res) =>{
     try {
         const {sectionId} = req.params;
-        if(!sectionId){
+        const {courseId} = req.body;
+        if(!sectionId || !courseId){
             return res.status(400).json({
                 success:false,
                 message:"SectionId is missing",
@@ -79,6 +81,12 @@ export const deleteSection = async(req,res) =>{
         }
         //delete the section 
         const section = await Section.findByIdAndDelete(sectionId);
+        // remove the section id form the course 
+        const course  = await Course.findByIdAndUpdate(courseId,
+                                                        {
+                                                            $pull:{courseContent:sectionId}
+                                                        }
+                                                        ,{new:true});
         return res.status(200).json({
             success:true,
             message:"Successfull deleted section ",
