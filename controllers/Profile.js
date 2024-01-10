@@ -80,3 +80,28 @@ exports.deleteAccount = async(req,res)=>{
         })
     }
 }
+exports.getAllUserDetails = async(req,res)=>{
+    try {
+        const userId = req.user.id;
+        if(!userId)return res.status(400).json({
+            status:false,
+            message:"UserId Required"
+        })
+        // validate that user exist
+        const user = await User.findById(userId).populate("additionalDetails").exec();
+        return res.status(200).json({
+            success:false,
+            message:"Success",
+            user,
+        })
+        
+
+    } catch (error) {
+        console.log("Error : ",error);
+        
+        return res.status(400).json({
+            success:false,
+            message:error.message,
+        })      
+    }
+}
