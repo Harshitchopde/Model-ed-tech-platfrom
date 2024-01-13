@@ -10,7 +10,7 @@ const mailSender = async(email,title,body)=>{
             }
         });
 
-        const info = transpoter.sendMail({
+        const info =await transpoter.sendMail({
             from:'Harshit Chopde | 🙏🏻 ',
             to:`${email}`,// list of reciver
             subject:`${title}`,
