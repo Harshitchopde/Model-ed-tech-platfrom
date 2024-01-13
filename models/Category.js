@@ -17,7 +17,7 @@ const categorySchema = mongoose.Schema({
         ref:"Course",
 
         
-    }],
+    },],
   
 
 })
