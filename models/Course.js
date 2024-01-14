@@ -11,7 +11,7 @@ const courseSchema = mongoose.Schema({
     },
     instructor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Profile",
+        ref: "User",
         requried: true,
 
     },
@@ -53,6 +53,13 @@ const courseSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User" 
         }
-    ]
+    ],
+    instructions:{
+        type:[String],
+    },
+    status:{
+        type:String,
+        enum:["Draft","Published"]
+    }
 })
 module.exports = mongoose.model("Course",courseSchema);
