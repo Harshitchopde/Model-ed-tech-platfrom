@@ -1,8 +1,9 @@
 const mongoose = require("mongoose")
 const RatingAndReviewSchema = mongoose.Schema({
     user: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref:"User"
     },
     rating:{
         type:Number,
@@ -10,7 +11,13 @@ const RatingAndReviewSchema = mongoose.Schema({
     },
     review:{
         type:String,
+    },
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:"Course"
     }
+    
    
 })
 module.exports = mongoose.model("RatingAndReview",RatingAndReviewSchema);
