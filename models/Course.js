@@ -57,6 +57,11 @@ const courseSchema = mongoose.Schema({
     instructions:{
         type:[String],
     },
+    purchase:{
+        type:Number,
+        required:true,
+        default:0
+    },
     status:{
         type:String,
         enum:["Draft","Published"]

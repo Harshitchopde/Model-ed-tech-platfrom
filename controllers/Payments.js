@@ -84,7 +84,7 @@ exports.verifySignature = async(req,res) =>{
     const webHookSecret = "riueryewi4";
     const signature = req.headers["x-razorpay-signature"];
 
-    const shaSum = crypto.createHmac("sha26",webHookSecret);
+    const shaSum = crypto.createHmac("sha2",webHookSecret);
     shaSum.update(JSON.stringify(req.body))
     const digest = shaSum.digest("hex");
     if(signature === digest){
