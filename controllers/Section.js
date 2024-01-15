@@ -1,6 +1,7 @@
+const Course = require("../models/Course")
+const Section = require("../models/Section")
 
-import Course from "../models/Course";
-import Section from "../models/Section";
+
 
 export const createSection =async (req,res)=>{
     try {

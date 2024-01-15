@@ -1,12 +1,12 @@
-import OTP from "../models/OTP.js";
-import Profile from "../models/Profile.js";
-import User from "../models/User.js";
+const OTP = require("../models/OTP.js");
+const Profile = require("../models/Profile.js");
+const User = require("../models/User.js");
 const bcrypt = require('bcrypt');
 const otpGenerator = require("otp-generator")
 const jwt = require('jsonwebtoken');
 
 // send otp
-export const sendOTP = async (req, res) => {
+exports.sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
         // check if user already exist in db
@@ -51,7 +51,7 @@ export const sendOTP = async (req, res) => {
     }
 }
 // sigin up
-export const signUp = async (req, res) => {
+exports.signUp = async (req, res) => {
     try {
         // get request para 
         const { firstName,

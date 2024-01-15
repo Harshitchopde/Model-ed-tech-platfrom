@@ -1,5 +1,5 @@
-import Profile from "../models/Profile";
-import User from "../models/User";
+const Profile = require("../models/Profile");
+const User = require("../models/User");
 
 export const updateProfile = async (req,res)=>{
     try {

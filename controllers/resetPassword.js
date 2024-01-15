@@ -1,6 +1,5 @@
-// const User = require("../models/User")
-import User from "../models/User.js";
-import mailSender from "../utils/mailSender.js";
+const User = require("../models/User")
+const mailSender = require("./utils/mailSender.js")
 const bcrypt = require("bcrypt")
 //resetPasswordToken -> mail send work it do
 exports.resetPasswordToken = async(req,res)=>{

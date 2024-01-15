@@ -1,10 +1,9 @@
 
 
 // create rating
-
-import mongoose from "mongoose";
-import Course from "../models/Course";
-import RatingAndReview from "../models/RatingAndReview";
+const mongoose = require("mongoose")
+const Course = require("../models/Course")
+const RatingAndReview = require("../models/RatingAndReview")
 
 export const createRatingAndReview = async(req,res)=>{
     try {
