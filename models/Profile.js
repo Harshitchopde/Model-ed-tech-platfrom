@@ -2,22 +2,22 @@ const mongoose = require("mongoose")
 
 const profileSchema = mongoose.Schema({
     gender:{
-        required:true,
+        // required:true,
         type:String,
       
     },
     dob:{
-        required:true,
+        // required:true,
         type:String,
      
     },
     about:{
-        required:true,
+        // required:true,
         type:String,
         
     },
     contactNumber:{
-        required:true,
+        // required:true,
         type:String,
        
     },

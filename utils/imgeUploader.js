@@ -9,7 +9,8 @@ exports.imageUploadToCloudinary = async(file,folder,height,quality)=>{
                 options.quality = quality;
             }
             options.resource_type = "auto"// self find is it video or image
-            return await cloudinary.uploader.upload(file,options);
+            // the latter function require path and options  || my error i give object insted of path
+            return await cloudinary.uploader.upload(file.tempFilePath,options);
         } catch (error) {
             console.log("Error in Uploading to Cloudinary : ",error.message);
             

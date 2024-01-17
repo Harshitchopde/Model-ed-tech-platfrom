@@ -39,8 +39,9 @@ exports.sendOTP = async (req, res) => {
         const savedOTP = await OTP.create(otpPayload);
         console.log(savedOTP);
         res.status(200).json({
-            status: false,
-            message: `OTP has been send to ${email}`
+            success: true,
+            message: `OTP has been send to ${email}`,
+            savedOTP
         })
 
     } catch (error) {
@@ -94,16 +95,21 @@ exports.signUp = async (req, res) => {
                 message: "No OTP found"
             })
         }
-        else if (otp !== recentOTP.otp) {
+        else if (otp !== recentOTP[0].otp) {
+            console.log("Recent otp : ",recentOTP);
+            
             return res.status(400).json({
                 status: false,
-                message: "Invaid OTP"
+                message: "Invaid OTP",
+                otp:otp,
+                recentOTP,
+                recentOTP:recentOTP[0].otp,
             })
         }
         //hash password
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+        const hash = bcrypt.hashSync(password, salt);
         // create the user profile
         const profileOfUser =await Profile.create({
             gender:null,

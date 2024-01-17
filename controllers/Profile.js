@@ -1,7 +1,34 @@
 const Profile = require("../models/Profile");
 const User = require("../models/User");
+const { imageUploadToCloudinary } = require("../utils/imgeUploader");
+exports.updateDisplayPicture = async(req,res)=>{
+    try {
+        const img = req.files.displayPicture;
+        const userId = req.user.id;
+        // console.log(img);
+        const disPicCloudinary  = await imageUploadToCloudinary(img,process.env.FOLDER_NAME);
+        // console.log(disPicCloudinary);
+        
+        const user = await User.findByIdAndUpdate({_id:userId},
+                                              { $set:{image:disPicCloudinary.secure_url}},
+                                              {new:true})
+        return res.status(200).json({
+            success:true,
+            message:"displayPicture Update SuccessFully",
+            user,
 
-export const updateProfile = async (req,res)=>{
+        })                                      
+    } catch (error) {
+        console.log("Error : ",error);
+        
+        return res.status(400).json({
+            success:false,
+            message:error.message,
+            noSucc:"no"
+        })
+    }
+}
+exports.updateProfile = async (req,res)=>{
     try {
         // get data 
         const {gender,dob="",about="",contactNumber}= req.body;

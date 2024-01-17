@@ -1,9 +1,14 @@
 const jwt = require("jsonwebtoken")
 // auth
-export const verifyAuth =async (req,res,next)=>{
+exports.verifyAuth =async (req,res,next)=>{
     try {
         // extract token 
-        const token = req.cookie.access_token ||
+
+        // console.log("REQ : ",req);
+        // console.log("REQCOOKIE : ",req.cookie);
+        
+        
+        const token = req.cookies.access_token ||
                       req.body.token ||
                       req.header("Authorisation").replace("Bearer ","");
         // check token is not empty
@@ -20,7 +25,7 @@ export const verifyAuth =async (req,res,next)=>{
                 message:"Token is Invalid"
             });
             req.user = user;
-            console.log(decode);
+            console.log(user);
     
         });
         next();
@@ -30,7 +35,8 @@ export const verifyAuth =async (req,res,next)=>{
         console.log(error);
         return res.status(400).json({
             status:false,
-            message:error.message
+            message:error.message,
+            errorIn:"verifyAuth"
         })
         
         

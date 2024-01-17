@@ -37,10 +37,10 @@ cloudinaryConnect();
 app.use("/api/v1/courses",courseRoutes)
 app.use("/api/v1/payments",paymentRoutes)
 app.use("/api/v1/profile",profileRoutes)
-app.use("/api/v1/user",usersRoutes)
+app.use("/api/v1/auth",usersRoutes)
 
 // default routes
-app.get("/",()=>{
+app.get("/",(req,res)=>{
     return res.json({
         success:true,
         message:"Backend is running",
