@@ -10,14 +10,14 @@ exports.createCourse = async(req,res)=>{
         const {courseName,
             courseDesc,
             whatYouWillLearn,
-            price ,tag} = req.body;
+            price ,category} = req.body;
         // get thumbnail file
         const thumbnail = req.files.thumbnailImage;
         // validation 
         if(!courseName ||
             !courseDesc || 
             !whatYouWillLearn ||
-            !price || !tag ||
+            !price || !category ||
             !thumbnail){
                 return res.status(400).json({
                     status:false,
@@ -27,7 +27,7 @@ exports.createCourse = async(req,res)=>{
         }
         // check for instructor
         const instructorId = req.user.id;
-        const checkInstructor = await User.findOne({id:instructorId});
+        const checkInstructor = await User.findById(instructorId);
         if(!checkInstructor){
             return res.status(404).json({
                 status:false,
@@ -35,7 +35,7 @@ exports.createCourse = async(req,res)=>{
             })
         }
         // check Category
-        const CategoryDetails = await Category.findById(tag);
+        const CategoryDetails = await Category.findById(category);
         if(!CategoryDetails){
             return res.status(400).json({
                 status:false,
@@ -53,7 +53,8 @@ exports.createCourse = async(req,res)=>{
             whatYouWillLearn,
             price,
             thumbnail:imageUpload.secure_url,
-            tag:CategoryDetails._id,   
+           
+            category:CategoryDetails._id,
         })
         // add the couse to the instructor user
         await User.findByIdAndUpdate(checkInstructor._id,
@@ -74,7 +75,7 @@ exports.createCourse = async(req,res)=>{
         return res.status(200).json({
             status:true,
             message:"Course created successfully",
-            createEntry
+            Course:newCourse,
         })
     } catch (error) {
         console.log(error);
@@ -85,7 +86,7 @@ exports.createCourse = async(req,res)=>{
         })
     }
 }
-export const showAllCourse = async (req,res)=>{
+exports.showAllCourse = async (req,res)=>{
     try {
         const allCourses = await Course.find({},{
             courseName:true,
@@ -117,7 +118,7 @@ exports.getCourseDetails = async(req,res)=>{
     try {
         const {courseId} = req.body;
         // find the courseDetails
-        const courseDetails = await findById(courseId)
+        const courseDetails = await Course.findById(courseId)
                                             .populate(
                                                 {
                                                     path:"instructor",
@@ -128,9 +129,9 @@ exports.getCourseDetails = async(req,res)=>{
                                             )
                                             .populate({
                                                 path:"courseContent",
-                                                populate:"subSection"
+                                                // populate:"subSection"
                                             })
-                                            .populate("ratingAndReview")
+                                            // .populate("ratingAndReview")
                                             .populate("category")
                                             .populate("studentEnrolled")
                                             .exec();

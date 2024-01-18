@@ -8,7 +8,7 @@ exports.createCategory = async (req, res) => {
         // validation 
         if (!name || !desc) {
             return res.status(400).json({
-                status: false,
+                success: false,
                 message: "Some field is missing name or desc",
             })
         }
@@ -18,7 +18,7 @@ exports.createCategory = async (req, res) => {
             desc: desc,
         })
         return res.status(200).json({
-            status: true,
+            success: true,
             message: "Successfull Created Category",
             tagEntry
         })
@@ -26,7 +26,7 @@ exports.createCategory = async (req, res) => {
     } catch (error) {
         console.log("Error in createCategory : ", error.message);
         return res.status(400).json({
-            status: false,
+            success: false,
             message: error.message,
         })
 
@@ -38,10 +38,11 @@ exports.showAllCategory = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "All Category successfully fetched",
+            getAllTags
         })
     } catch (error) {
         return res.status(400).json({
-            status: false,
+            success: false,
             message: error.message,
         })
     }
@@ -54,7 +55,7 @@ exports.categoryPageDetails = async (req, res) => {
         const { categoryId } = req.body;
         // get course for particular categorys
         const getCategory = await Category.find(
-            { _id: { $e: categoryId } }
+            { _id: categoryId }
         ).populate("courses").exec();
         // validate
         if (!getCategory) {
