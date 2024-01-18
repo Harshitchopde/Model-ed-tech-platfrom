@@ -20,7 +20,7 @@ exports.createSubSection = async (req,res)=>{
             })
         }
         const uploadToCloudinary= await imageUploadToCloudinary(videoFile,process.env.FOLDER_NAME);
-
+        
         const subSection = await SubSection.create({
             title,timeDuration,desc,videoUrl:uploadToCloudinary.secure_url
         })
