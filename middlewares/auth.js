@@ -25,7 +25,7 @@ exports.verifyAuth =async (req,res,next)=>{
                 message:"Token is Invalid"
             });
             req.user = user;
-            console.log(user);
+            // console.log(user);
     
         });
         next();

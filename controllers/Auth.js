@@ -112,7 +112,7 @@ exports.signUp = async (req, res) => {
         const hash = bcrypt.hashSync(password, salt);
         // create the user profile
         const profileOfUser =await Profile.create({
-            gender:null,
+           
             dob:null,
             about:null,
             contactNumber,

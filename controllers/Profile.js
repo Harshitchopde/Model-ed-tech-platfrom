@@ -44,23 +44,25 @@ exports.updateProfile = async (req,res)=>{
         // find and update
         const user = await User.findById(userId); 
         //METHOD 1
-        // const profile = await Profile.findByIdAndUpdate(user.additionalDetails,
-        //                                                         {
-        //                                                             gender,dob,about,contactNumber
-        //                                                         }
-        //                                                         ,{new:true});
+        const profile = await Profile.findByIdAndUpdate(user.additionalDetails,
+                                                                {
+                                                                    gender,dob,about,contactNumber
+                                                                }
+                                                                ,{new:true});
 
-        //METHOD 2
-        const profile = await Profile.findById(userId.additionalDetails);
-        profile.gender = gender;
-        profile.dob = dob;
-        profile.about = about;
-        profile.contactNumber= contactNumber;
-        // saved the changes
-        await profile.save();
+        //METHOD 2 --> Error :  TypeError: Cannot set properties of null (setting 'dob')
+    //    { const profile = await Profile.findById(userId.additionalDetails);
+    //     profile.gender = gender;
+    //     profile.dob = dob;
+    //     profile.about = about;
+       
+    //     profile.contactNumber= contactNumber;
+    //     // saved the changes
+    //     await profile.save();}
         return res.status(200).json({
             success:true,
             message:"Profile Update SuccessFully",
+            profile,
         })
         // return response
     } catch (error) {
@@ -107,7 +109,7 @@ exports.deleteAccount = async(req,res)=>{
         })
     }
 }
-exports.getAllUserDetails = async(req,res)=>{
+exports.getUserDetails = async(req,res)=>{
     try {
         const userId = req.user.id;
         if(!userId)return res.status(400).json({

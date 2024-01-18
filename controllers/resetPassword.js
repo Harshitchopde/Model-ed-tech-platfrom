@@ -1,6 +1,7 @@
 const User = require("../models/User")
-const mailSender = require("./utils/mailSender.js")
+const mailSender =require("../utils/mailSender")
 const bcrypt = require("bcrypt")
+const crypto = require("crypto")
 //resetPasswordToken -> mail send work it do
 exports.resetPasswordToken = async(req,res)=>{
     try {
@@ -29,12 +30,13 @@ exports.resetPasswordToken = async(req,res)=>{
         console.log("URL RESET link : ",url);
         
         // send mail containing the url
-        await mailSender(email,"Password reset Link",
+        const mail =await mailSender(email,"Password reset Link",
                                 `Password reset link -> ${url}`)
         return res.status(200).json({
             status:true,
             message:"Password reset link has been successfully send to your email",
-            updateDetail,
+           
+            mail,
         })
 
     } catch (error) { 
@@ -65,7 +67,7 @@ exports.resetPassword =async (req,res)=>{
             })
         }
         // get userDetail using token
-        const checkUser = await User.findone({token});
+        const checkUser = await User.findOne({token});
         if(!checkUser){
             return res.status(400).json({
                 status:false,
@@ -84,7 +86,7 @@ exports.resetPassword =async (req,res)=>{
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password,salt);
         // update the pasword in Db 
-        const userUpdate = await findOneAndUpdate({token},
+        const userUpdate = await User.findOneAndUpdate({token},
                                                     {
                                                         password:hash
                                                     },
