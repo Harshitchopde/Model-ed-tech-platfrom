@@ -13,7 +13,7 @@ exports.sendOTP = async (req, res) => {
         const isPresent = await User.findOne({ email });
         if (isPresent) {
             return res.status(401).json({
-                status: false,
+                success: false,
                 message: "User already exist"
             })
         }
@@ -24,6 +24,7 @@ exports.sendOTP = async (req, res) => {
             upperCaseAlphabets: false,
             specialChars: false,
         })
+     
         let result = await OTP.findOne({ otp });
         while (result) {
             otp = otpGenerator.generate(6, {
