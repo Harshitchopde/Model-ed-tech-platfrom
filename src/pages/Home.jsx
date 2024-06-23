@@ -7,6 +7,8 @@ import Banner from "../assets/Images/banner.mp4"
 import CodeBlock from '../components/core/HomePage/CodeBlock';
 import TimeLineSection from '../components/core/HomePage/TimeLineSection';
 import LanguageLearingSection from '../components/core/HomePage/LanguageLearingSection';
+import InstructorSection from '../components/core/HomePage/InstructorSection';
+import Footer from '../components/common/Footer';
 const Home = () => {
     return (
         <div >
@@ -101,7 +103,7 @@ const Home = () => {
             </div>
 
             {/* Section 2 */}
-            <div className='  bg-pure-greys-5 text-richblack-700'>
+            <div className=' bg-pure-greys-5 text-richblack-700'>
                 <div className="h-[333px] homepage_bg">
                     <div className="w-full h-[150px]"></div>
                     <div className="w-11/12   mx-auto max-w-maxContent flex items-center justify-center gap-5">
@@ -117,15 +119,17 @@ const Home = () => {
                     </div>
                 </div>
                 <div className='w-11/12 mt-[90px] flex flex-col item-center justify-center max-w-maxContent mx-auto '>
-                    <div className="flex flex-row gap-5 mb-12">
-                        <div className=" text-4xl  w-[45%]">Get the skills you need for a
+                    <div className="flex  flex-col lg:flex-row gap-5 mb-12">
+                        <div className=" text-4xl  lg:w-[45%] ">Get the skills you need for a
                             <HighLightText text={"job that is in demand."} />
                         </div>
-                        <div className="flex flex-col w-[40%] items-start gap-10 ">
+                        <div className="flex flex-col lg:w-[40%] items-start gap-10 ">
                             <div className='text-[16px]'>The modern StudyNotion is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.</div>
-                            <CTAButtom active={true} linkTo={"/signup"}>
+                         
+                           <CTAButtom active={true} linkTo={"/signup"}>
                                 Learn more
                             </CTAButtom>
+                          
                         </div>
                     </div>
                 </div>
@@ -133,7 +137,12 @@ const Home = () => {
                 <LanguageLearingSection/>
             </div>
             {/* Section 3 */}
+            <div className=" w-11/12 flex flex-col mx-auto mt-[80px] bg-richblack-900 gap-8 text-white">
+            <InstructorSection/>
+            <h2 className=' mt-40 text-4xl font-semibold text-center'>Reviews from other learners</h2>
+            </div>
             {/* Footer */}
+            <Footer/>
         </div>
     )
 }
