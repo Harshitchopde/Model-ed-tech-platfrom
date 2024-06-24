@@ -2,7 +2,7 @@ node_modules
 .env
 /.pnp
 .pnp.js
-components
+
 # testing
 /coverage
 
