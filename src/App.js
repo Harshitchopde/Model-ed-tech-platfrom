@@ -3,12 +3,20 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import Home from "./pages/Home.jsx";
+import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp.jsx';
+import NavBar from './components/common/NavBar.jsx';
 
 function App() {
   return (
-    <div className='flex flex-col font-inter bg-richblack-900  min-h-screen'>
+    <div className='flex flex-col font-inter bg-richblack-900 text-white  min-h-screen'>
+      <NavBar/>
     <Routes>
-      <Route path='/' element={<Home/>}/>
+      <Route path='/'>
+        <Route index element={<Home/>}/>
+        <Route path='login' element={<Login/>}/>
+        <Route path='signup' element={<SignUp/>}/>
+      </Route>
     </Routes>
      
     </div>
