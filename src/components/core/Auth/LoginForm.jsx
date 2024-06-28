@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { Link } from 'react-router-dom'
 const LoginForm = () => {
+  const [showPassword,setShowPassword] = useState(false);
   return (
     <div>
       <form className=' mt-6  w-full  gap-y-4 flex flex-col'>
@@ -21,13 +22,13 @@ const LoginForm = () => {
             <input
              required
              placeholder='Enter password address'
-              type='password'
+              type= {showPassword?"text":"password"}
               
              style={{textDecoration:"none",outline:"none",boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)"}}
                 className=' mt-2 bg-richblack-800 rounded-[0.5rem] text-richblack-5 p-5 w-full'
              />
-        <span  className="absolute right-3 top-[50px] z-[10] cursor-pointer">
-          {false ? (
+        <span onClick={()=>setShowPassword(!showPassword)} className="absolute right-3 top-[50px] z-[10] cursor-pointer">
+          {showPassword ? (
             <AiOutlineEye fontSize={24} fill="#AFB2BF" />
           ) : (
             <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />

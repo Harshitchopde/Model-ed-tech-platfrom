@@ -3,7 +3,8 @@ import LoginForm from './LoginForm'
 import loginImg from "../../../assets/Images/login.webp"
 import frame from "../../../assets/Images/frame.png"
 import SignUpForm from './SignUpForm'
-const Template = () => {
+const Template = ({children}) => {
+ 
   return (
     <div className='text-white  mt-[150px] flex flex-wrap w-11/12 mx-auto  justify-around max-w-maxContent  bg-richblack-900 '>
         <div className=" flex w-[40%]  flex-col gap-7">
@@ -16,7 +17,9 @@ const Template = () => {
               </p>
           
           {/* //from */}
-          <SignUpForm/>
+          {
+            children
+          }
         </div>
 
         <div className="  relative flex  justify-center  items-center w-[50%]">

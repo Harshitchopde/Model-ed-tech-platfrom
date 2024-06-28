@@ -1,8 +1,10 @@
 import React from 'react'
+import Tab from '../../common/Tab'
 
 const SignUpForm = () => {
   return (
     <form className=' mt-6 flex flex-col gap-y-6 w-full'>
+      <Tab/>
       <div className="flex flex-row gap-5">
       <label className=''>
             <p>First Name <sup className=' text-pink-200'>*</sup></p>
@@ -36,6 +38,31 @@ const SignUpForm = () => {
         style={{boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)",outline:"none"}}
         className='mt-2 p-3 rounded-[0.5rem] w-[95%] bg-richblack-800 text-richblack-5 '/>
       </label>
+      <div className="flex flex-row gap-5">
+      <label className=''>
+            <p>Create Password <sup className=' text-pink-200'>*</sup></p>
+            <input
+            required
+            type='password'
+            placeholder='Enter Password'
+            style={{boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)",outline:"none"}}
+            className='mt-2 bg-richblack-800 p-3 rounded-[0.5rem] text-richblack-5'
+            />
+
+        </label>
+        <label className=''>
+            <p>Confrim Password<sup className=' text-pink-200'>*</sup></p>
+            <input
+            required
+            type='password'
+            placeholder='Confirm Password'
+            style={{boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)",outline:"none"}}
+            className='mt-2 bg-richblack-800 p-3 rounded-[0.5rem] text-richblack-5'
+            />
+
+        </label>
+      </div>
+      <button className=' flex justify-center items-center bg-yellow-50  p-3 rounded-[0.5rem] mt-6 text-black w-[95%]'>Create Account</button>
     </form>
   )
 }
