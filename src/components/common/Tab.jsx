@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { ACCOUNT_TYPE } from '../../utils/constants';
 
-const Tab = () => {
-    const [selected,setSelected] = useState(false)
+const Tab = ({setAccountType,accountType}) => {
+    const [selected,setSelected] = useState(false);
+    // selected?setAccountType(ACCOUNT_TYPE.INSTRUCTOR):setAccountType(ACCOUNT_TYPE.STUDENT);
+    // console.log("Tab ",accountType);
+    useEffect(()=>{
+      setAccountType(selected?ACCOUNT_TYPE.INSTRUCTOR:ACCOUNT_TYPE.STUDENT);
+    },[selected])
   return (
     <div>
       <div 

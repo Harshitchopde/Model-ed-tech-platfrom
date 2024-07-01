@@ -6,9 +6,7 @@ import loginImage from "../assets/Images/login.webp"
 const Login = () => {
   return (
     <div>
-     <Template img={loginImage}>
-      {<LoginForm/>}
-     </Template>
+     <Template  formType={"Login"} img={loginImage}/>
     </div>
   )
 }

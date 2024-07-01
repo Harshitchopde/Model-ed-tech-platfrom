@@ -48,7 +48,7 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(PORT,()=>{
-    let i =1;
+    // let i =1;
     console.log(`Server is Running... at ${PORT}`);
     
     // setInterval(()=>{

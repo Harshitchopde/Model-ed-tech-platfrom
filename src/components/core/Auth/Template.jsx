@@ -3,7 +3,7 @@ import LoginForm from './LoginForm'
 import loginImg from "../../../assets/Images/login.webp"
 import frame from "../../../assets/Images/frame.png"
 import SignUpForm from './SignUpForm'
-const Template = ({children}) => {
+const Template = ({formType}) => {
  
   return (
     <div className='text-white  mt-[150px] flex flex-wrap w-11/12 mx-auto  justify-around max-w-maxContent  bg-richblack-900 '>
@@ -18,7 +18,7 @@ const Template = ({children}) => {
           
           {/* //from */}
           {
-            children
+            formType==="Login"?<LoginForm/>:<SignUpForm/>
           }
         </div>
 

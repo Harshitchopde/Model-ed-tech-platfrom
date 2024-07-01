@@ -5,11 +5,7 @@ import SignUpForm from '../components/core/Auth/SignUpForm'
 const SignUp = () => {
   return (
     <div>
-      <Template>
-        {
-          <SignUpForm/>
-        }
-      </Template>
+      <Template formType={"SignUp"}/>
     </div>
   )
 }

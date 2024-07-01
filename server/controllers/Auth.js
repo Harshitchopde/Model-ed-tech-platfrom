@@ -26,6 +26,7 @@ exports.sendOTP = async (req, res) => {
         })
      
         let result = await OTP.findOne({ otp });
+        // inefficient process
         while (result) {
             otp = otpGenerator.generate(6, {
                 lowerCaseAlphabets: false,
@@ -65,6 +66,8 @@ exports.signUp = async (req, res) => {
             accountType,
             otp
         } = req.body;
+        // console.log(req.body);
+        
         // check if they are empty
         if (!firstName || !lastName || !password || !conformPassword || !email || !otp) {
             return res.status(400).json({
@@ -97,7 +100,7 @@ exports.signUp = async (req, res) => {
             })
         }
         else if (otp !== recentOTP[0].otp) {
-            console.log("Recent otp : ",recentOTP);
+            // console.log("Recent otp : ",recentOTP);
             
             return res.status(400).json({
                 status: false,

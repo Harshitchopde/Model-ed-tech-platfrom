@@ -11,7 +11,7 @@ const mailSender = async(email,title,body)=>{
         });
 
         const info =await transpoter.sendMail({
-            from:'Harshit Chopde | 🙏🏻 ',
+            from:'StudyNotion | Harshit Chopde 🙏🏻 ',
             to:`${email}`,// list of reciver
             subject:`${title}`,
             html:`${body}`
