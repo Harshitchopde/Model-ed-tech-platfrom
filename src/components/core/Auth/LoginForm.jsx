@@ -1,16 +1,38 @@
 import React, { useState } from 'react'
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../../../services/operations/authApis';
 const LoginForm = () => {
   const [showPassword,setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loginData,setLoginData] = useState({
+    email:"",
+    password:"",
+  })
+  // destructure
+  const {email,password} = loginData;
+  const handleChange = (e)=>{
+    setLoginData((prev)=>({
+   ...prev,[e.target.name]:e.target.value
+    }))
+  }
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    dispatch(login(email,password,navigate))
+  }
   return (
     <div>
-      <form className=' mt-6  w-full  gap-y-4 flex flex-col'>
+      <form onSubmit={handleSubmit} className=' mt-6  w-full  gap-y-4 flex flex-col'>
         <label>
             <p>Email Address <sup className=' text-pink-200'>*</sup></p>
             <input
              required
+             value={email}
+             name='email'
+             onChange={handleChange}
              placeholder='Enter email address'
              type='text'
              style={{textDecoration:"none",outline:"none",boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)"}}
@@ -19,9 +41,12 @@ const LoginForm = () => {
         </label>
         <label className=" relative">
             <p>Password <sup className=' text-pink-200'>*</sup></p>
-            <input
-             required
-             placeholder='Enter password address'
+            <input  
+              name='password'
+              value={password}
+              onChange={handleChange}
+              required
+              placeholder='Enter password address'
               type= {showPassword?"text":"password"}
               
              style={{textDecoration:"none",outline:"none",boxShadow:"inset 0px -1px 0px rgba(255, 255, 255, 0.18)"}}

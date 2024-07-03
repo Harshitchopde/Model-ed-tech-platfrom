@@ -7,6 +7,10 @@ import { CiShoppingCart } from "react-icons/ci";
 import { apiConnector } from '../../services/apiconnnectors'
 import { categories } from '../../services/apis'
 import { FaAngleDown } from "react-icons/fa6";
+import { FaCaretDown } from "react-icons/fa";
+import { IoMdSearch } from "react-icons/io";
+import { VscDashboard } from "react-icons/vsc";
+import { FiLogOut } from "react-icons/fi";
 const subLinks=[
   
     {
@@ -23,18 +27,32 @@ const subLinks=[
 
   
 ]
+const userTab=[
+  {
+    id:1,
+    icon:<VscDashboard/>,
+    title:"DashBoard",
+    link:"/dashboard/my-profile"
+  },{
+    id:2,
+    icon:<FiLogOut/>,
+    title:"LogOut",
+    link:"/home"
+  }
+]
 const NavBar = () => {
     const location = useLocation();
     const matchRoute = (route)=>{
         return matchPath({path:route},location.pathname);
     }
+    const [isUserTabOpen,setIsUserTabOpen]= useState(false)
 
     // redux storeage
     const {token} = useSelector((state)=>state.auth);
     const {totalItems} = useSelector((state)=> state.cart);
     // const [subLinks,setSubLinks] = useState([]);
     const { user} = useSelector((state)=>state.profile);
-
+    console.log("user",user?.image)
     // -----------sub link part-----------
 // {    const fetchSublinks = async()=>{
 //       try {
@@ -103,9 +121,37 @@ const NavBar = () => {
       <div className="flex flex-row gap-x-5">
           {
             user && user?.accountType !== "Instructor" && (
-                <Link to={"/dashboard/cart"} className='relative '>
+                <div className=" flex gap-4 ">
+                <Link to={"/dashboard/cart"} className='rounded-full p-2 bg-richblack-800 text-2xl'>
+                  <IoMdSearch/>
+                </Link>
+                <Link to={"/dashboard/cart"} className='flex items-center text-2xl'>
                   <CiShoppingCart/>
                 </Link>
+                {
+                  user?.image && <div to={"/dashboard/cart"} 
+                  onClick={()=>setIsUserTabOpen(!isUserTabOpen)}
+                  className=' relative cursor-pointer flex items-center  h-full text-2xl'>
+                  <img src={user.image} className=' rounded-full' width={30} height={30} alt='not found'/>
+                  <FaCaretDown className=' text-sm'/>
+                  {isUserTabOpen && <div
+                  
+                   className="  bg-richblack-800 rounded-[0.5rem] border-richblack-600  border  absolute bottom-0 translate-y-[100%] translate-x-[-60%] left-0 flex flex-col  ">
+                     {
+                      userTab.map((ele,i)=> {
+                        return (
+                          <Link key={i} to={ele.link} onClick={()=>setIsUserTabOpen(false)}>
+
+                          <div className=" text-xl hover:bg-richblack-700 border-richblack-600 border-b p-4">{ele.title}</div>
+                          </Link>
+                        )
+                      })
+                     }
+                    
+                    </div>}
+                  </div>
+                }
+                </div>
             )
           }
           {

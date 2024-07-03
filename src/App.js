@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import NavBar from './components/common/NavBar.jsx';
 import Verify_email from './pages/Verify_email.jsx';
+import Error from './pages/Error.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='signup' element={<SignUp/>}/>
         <Route path='verify-email' element={<Verify_email/>}/>
       </Route>
+      <Route path='*' element={<Error/>}/>
     </Routes>
      
     </div>

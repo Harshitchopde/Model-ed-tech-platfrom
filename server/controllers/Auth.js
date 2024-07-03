@@ -71,14 +71,14 @@ exports.signUp = async (req, res) => {
         // check if they are empty
         if (!firstName || !lastName || !password || !conformPassword || !email || !otp) {
             return res.status(400).json({
-                status: false,
+                success: false,
                 message: "Some Parameter are missing"
             })
         }
         // check password and conformpassword
         if (password !== conformPassword) {
             res.status(400).json({
-                status: false,
+                success: false,
                 message: "Password and conform password value does not match , please try again"
             })
         }
@@ -87,7 +87,7 @@ exports.signUp = async (req, res) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(401).json({
-                status: false,
+                success: false,
                 message: "User aleady exist , try with different name"
             })
         }
@@ -95,7 +95,7 @@ exports.signUp = async (req, res) => {
         const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
         if (recentOTP.lenght === 0) {
             return res.status(400).json({
-                status: false,
+                success: false,
                 message: "No OTP found"
             })
         }
@@ -103,7 +103,7 @@ exports.signUp = async (req, res) => {
             // console.log("Recent otp : ",recentOTP);
             
             return res.status(400).json({
-                status: false,
+                success: false,
                 message: "Invaid OTP",
                 otp:otp,
                 recentOTP,
@@ -133,7 +133,7 @@ exports.signUp = async (req, res) => {
         })
         
         res.status(200).json({
-            status:true,
+            success:true,
             message:"User has been created successfully",
             user
         })
@@ -142,7 +142,7 @@ exports.signUp = async (req, res) => {
     } catch (error) {
  console.log(error);
  res.status(500).json({
-    status:false,
+    success:false,
     message:"User can not be created",
    
 })
@@ -153,42 +153,51 @@ exports.signUp = async (req, res) => {
 
 // login
 exports.login = async(req,res)=>{
-    // get data form req body
-    const {email,password} = req.body;
-    // validate user
-    const checkUser = await User.findOne({email}).populate("additionalDetails");
-    //user check existance
-    if(!checkUser){
-        return res.status(400).json({
-            status:false,
-            message:"User Not Found"
-        })
-    }
-    // check [password]
-    const match = await bcrypt.compare(password, checkUser.password);
-    if(!match){
-        return res.status(400).json({
-            status:false,
-            message:"Password is Incorrect!"
-        })
-    }
-    // create JWT token
-    const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,{
-        expiresIn:"2h"
-    });
-    checkUser.token = token
-    // create cookies
-    const options = {
-        httpOnly:true,
-        expires:new Date(Date.now() +3*24*60*60*1000)
-    }
-    res.cookie("access_token",token,options).status(200).json({
-        status:true,
-        message:"Login SuccessFull",
-        checkUser
+   try {
+     // get data form req body
+     const {email,password} = req.body;
+     // validate user
+     const checkUser = await User.findOne({email}).populate("additionalDetails");
+     //user check existance
+     if(!checkUser){
+         return res.status(400).json({
+             success:false,
+             message:"User Not Found"
+         })
+     }
+     // check [password]
+     const match = await bcrypt.compare(password, checkUser.password);
+     if(!match){
+         return res.status(400).json({
+             success:false,
+             message:"Password is Incorrect!"
+         })
+     }
+     // create JWT token
+     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,{
+         expiresIn:"2h"
+     });
+     checkUser.token = token
+     // create cookies
+     const options = {
+         httpOnly:true,
+         expires:new Date(Date.now() +3*24*60*60*1000)
+     }
+     res.cookie("access_token",token,options).status(200).json({
+         success:true,
+         message:"Login SuccessFull",
+         user:checkUser,
+         token
+     })
+     
+   } catch (error) {
+    console.log("Error ",error);
+    res.status(400).json({
+        success:false,
+        message:error
     })
     
-   
+   }
 }
 
 //changePassword

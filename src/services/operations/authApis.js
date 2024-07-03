@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
 import { authEndpoints } from "../apis";
-import { setLoading } from "../../slices/authSlicer";
+import { setLoading, setToken } from "../../slices/authSlicer";
 import { apiConnector } from "../apiconnnectors";
+import { setUser } from "../../slices/profileSlicer";
 
 
 const {
@@ -42,8 +43,64 @@ export function signUp(
     otp
 ){
     return async(dispatch)=>{
+        const toastId = toast.loading("Loading...")
+        dispatch(setLoading(true));
+        try {
+            const response = await apiConnector("POST",SIGNUP_API,{
+                firstName,lastName,password,conformPassword,email,accountType,otp
+            })
+            console.log("API response of signup ",response)
+            if(!response.data.success){
+                throw new Error(response.data.message);
+            }
+            toast.success(response.data.message);
+            toast.dismiss(toastId);
+            navigate("/login");
+        } catch (error) {
+            console.log("Error in ",error);
+            toast.error(error);
+        }
+        dispatch(setLoading(false));
+        toast.dismiss(toastId);
         
     }
-        
+}
+export function login(
+    email,
+    password,
+    navigate,
+){
+    return async(dispatch)=>{
+        const toastId = toast.loading("Loading...");
+        dispatch(setLoading(true));
+        try {
+            const response = await apiConnector("POST",LOGIN_API,{
+                email,password
+            })
+            if(!response.data.success){
+                toast.error(response.data.message);
+                throw new Error(response.data.message);
+            }
+            console.log(response.data)
+            toast.success("Login successfull")
+            dispatch(setToken(response.data.token))
+            const image= response.data.user.image
+            ?response.data.user.image
+            :`https://api.dicebear.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
+            // setUser
+            dispatch(setUser({...response.data.user,image:image}))
+            // token
+            localStorage.setItem("token",JSON.stringify(response.data.user.token))
+            // user
+            localStorage.setItem("user",JSON.stringify(response.data.user))
+            // navigate to /dashboard/my-profile
+            navigate("/dashboard/my-profile")
 
+        } catch (error) {
+            toast.error(error);
+            console.log("Error : ",error)
+        }
+        dispatch(setLoading(false));
+        toast.dismiss(toastId);
+    }
 }
