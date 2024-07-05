@@ -139,10 +139,10 @@ const NavBar = () => {
                    className="  bg-richblack-800 rounded-[0.5rem] border-richblack-600  border  absolute bottom-0 translate-y-[100%] translate-x-[-60%] left-0 flex flex-col  ">
                      {
                       userTab.map((ele,i)=> {
+                        // console.log("ele ",ele)
                         return (
                           <Link key={i} to={ele.link} onClick={()=>setIsUserTabOpen(false)}>
-
-                          <div className=" text-xl hover:bg-richblack-700 border-richblack-600 border-b p-4">{ele.title}</div>
+                             <div className=" text-xl hover:bg-richblack-700 border-richblack-600 border-b p-4">{ele.title}</div>
                           </Link>
                         )
                       })
