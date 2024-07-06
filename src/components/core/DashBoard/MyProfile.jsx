@@ -56,7 +56,9 @@ const MyProfile = () => {
             <RiEditBoxLine/>
           </IconBtn>
         </div>
+
         <div className=" flex  flex-col gap-7 w-[500px]">
+          {/* first name and last name */}
           <div className=" flex  justify-between">
           
               <div className=" flex flex-col  gap-y-2">
@@ -68,7 +70,7 @@ const MyProfile = () => {
               <div className=" text-sm">{user?.lastName}</div>
           </div>
           </div>
-
+          {/* email and phone number */}
           <div className=" flex justify-between ">
           
               <div className=" flex flex-col  gap-y-2">
@@ -81,6 +83,7 @@ const MyProfile = () => {
               </div>
           </div>
 
+          {/* gender and date of birth */}
           <div className=" flex justify-between ">
           
               <div className=" flex flex-col  gap-y-2">
