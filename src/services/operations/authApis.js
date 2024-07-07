@@ -3,6 +3,7 @@ import { authEndpoints } from "../apis";
 import { setLoading, setToken } from "../../slices/authSlicer";
 import { apiConnector } from "../apiconnnectors";
 import { setUser } from "../../slices/profileSlicer";
+import { resetCart } from "../../slices/cartSlicer";
 
 
 const {
@@ -102,5 +103,17 @@ export function login(
         }
         dispatch(setLoading(false));
         toast.dismiss(toastId);
+    }
+}
+export function logOut(navigate){
+    return (dispatch)=>{
+        dispatch(setToken(null));
+        dispatch(setUser(null));
+        dispatch(resetCart());
+        // remove from loca storeage
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+        toast.success("Logged Out")
+        navigate("/")
     }
 }

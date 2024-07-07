@@ -10,7 +10,7 @@ exports.verifyAuth =async (req,res,next)=>{
         
         const token = req.cookies.access_token ||
                       req.body.token ||
-                      req.header("Authorisation").replace("Bearer ","");
+                      req.header("Authorization").replace("Bearer ","");
         // check token is not empty
         if(!token){
             return res.status(400).json({
@@ -54,7 +54,10 @@ exports.isStudent = (req,res,next)=>{
         }
         next()
     } catch (error) {
-        
+        return res.status(500).json({
+            success:false,
+            message:error,
+        })
     }
 }
 
@@ -69,7 +72,10 @@ exports.isInstructor = (req,res,next)=>{
         }
         next()
     } catch (error) {
-        
+        return res.status(500).json({
+            success:false,
+            message:error,
+        })
     }
 }
 

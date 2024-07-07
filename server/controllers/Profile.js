@@ -1,6 +1,10 @@
+const { populate } = require("dotenv");
+const Course = require("../models/Course")
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { imageUploadToCloudinary } = require("../utils/imgeUploader");
+const { convertSecToDuration } = require("../utils/secToDur");
+const CourseProgress = require("../models/CourseProgress");
 exports.updateDisplayPicture = async(req,res)=>{
     try {
         const img = req.files.displayPicture;
@@ -113,13 +117,13 @@ exports.getUserDetails = async(req,res)=>{
     try {
         const userId = req.user.id;
         if(!userId)return res.status(400).json({
-            status:false,
+            success:false,
             message:"UserId Required"
         })
         // validate that user exist
         const user = await User.findById(userId).populate("additionalDetails").exec();
         return res.status(200).json({
-            success:false,
+            success:true,
             message:"Success",
             user,
         })
@@ -134,4 +138,95 @@ exports.getUserDetails = async(req,res)=>{
         })      
     }
 }
+exports.getEnrolledCourses = async(req,res)=>{
+    try {
+        const userId = req.user.id;
+        console.log("USERID" ,userId)
+        let userDetails = await User.findOne({_id:userId
+        }).populate({
+            path:"courses",
+            populate:{
+                path:"courseContent",
+                populate:{
+                    path:"subSection"
+                }
+            }
+        }).exec()
 
+        // check user
+        if (!userDetails) {
+            return res.status(400).json({
+              success: false,
+              message: `Could not find user with id: ${userDetails}`,
+            })
+          }
+        userDetails = userDetails.toObject();       
+        let SubSectionLenght = 0;
+        for(let i = 0;i<userDetails.courses.length;i++){
+            let totalDurationInSecond = 0;
+            SubSectionLenght = 0;
+            for(let j=0;j<userDetails.courses[i].courseContent.length;j++){
+                totalDurationInSecond+=userDetails.courses[i].courseContent[j]
+                .subSection.reduce((acc,curr)=> acc+parseInt(curr.timeDuration),0)
+                userDetails.courses[i].totalDuration = convertSecToDuration(totalDurationInSecond)
+                SubSectionLenght+=
+                 userDetails.courses[i].courseContent[j].subSection.length
+            }
+            let courseProgressCount = await CourseProgress.findOne({
+                userId:userId,
+                courseId:userDetails.courses[i]._id
+            })
+            courseProgressCount = courseProgressCount?.completedVideos.length
+            if(SubSectionLenght===0){
+                userDetails.courses[i].progressPercentage = 100
+            }else{
+                const multiplier = Math.pow(10,2);
+                userDetails.courses[i].progressPercentage = Math.round((courseProgressCount/SubSectionLenght)*100*multiplier)/multiplier
+            }
+        }
+
+        return res.status(200).json({
+            success:true,
+            data:userDetails.courses,
+        })
+
+
+    } catch (error) {
+        console.log("Error in GetEnrolled courses",error)
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+
+exports.instructorDashboard = async(req,res)=>{
+    try {
+        const courseDetails = await Course.find({instructor:req.user.id})
+        const courseData = courseDetails.map((course)=>{
+            const totalStudentEnrolled = course.studentEnrolled.length;
+            const totalRevenueGenerated = totalStudentEnrolled*course.price;
+
+            const courseDetailWithStats={
+                _id:course._id,
+                courseName:course.courseName,
+                courseDesc:course.courseDesc,
+                totalStudentEnrolled,
+                totalRevenueGenerated,
+            }
+            return courseDetailWithStats;
+        })
+
+        return res.status(200).json({
+            success:true,
+            courses:courseData
+        })
+        
+    } catch (error) {
+        console.log("Error in Instructor ",error)
+        return res.status(500).json({
+            success:false,
+           message:error
+        })
+    }
+}
