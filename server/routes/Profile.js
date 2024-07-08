@@ -8,7 +8,7 @@ routes.put("/updateDisplayPicture",verifyAuth,updateDisplayPicture)
 routes.put("/updateProfile",verifyAuth,updateProfile)
 routes.get("/getUserDetails",[verifyAuth,getUserDetails])
 
-// routes.delete("/deleteProfile",verifyAuth)
+routes.delete("/deleteProfile",verifyAuth)
 
 // for profile section to show different 
 routes.get("/getEnrolledCourses",verifyAuth,getEnrolledCourses)

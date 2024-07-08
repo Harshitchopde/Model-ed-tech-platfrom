@@ -110,7 +110,7 @@ export function logOut(navigate){
         dispatch(setToken(null));
         dispatch(setUser(null));
         dispatch(resetCart());
-        // remove from loca storeage
+        // remove from local storeage
         localStorage.removeItem("token")
         localStorage.removeItem("user")
         toast.success("Logged Out")

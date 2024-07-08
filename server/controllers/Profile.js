@@ -5,6 +5,7 @@ const User = require("../models/User");
 const { imageUploadToCloudinary } = require("../utils/imgeUploader");
 const { convertSecToDuration } = require("../utils/secToDur");
 const CourseProgress = require("../models/CourseProgress");
+const { default: mongoose } = require("mongoose");
 exports.updateDisplayPicture = async(req,res)=>{
     try {
         const img = req.files.displayPicture;
@@ -83,23 +84,39 @@ exports.deleteAccount = async(req,res)=>{
         //get id
         const userId = req.user.id;
         if(!userId)return res.status(400).json({
-            status:false,
+            success:false,
             message:"UserId Required"
         })
         // validate that user exist
         const user = await User.findById(userId);
         if(!user){
-            return res.status(400).json({
+            return res.status(404).json({
                 success:false,
-                message:"User  does not exist",
+                message:"User Not Found!",
             })
         }
         // delete the profile
-        const profile = await Profile.findByIdAndDelete(user.additionalDetails);
+        // const profile = await Profile.findByIdAndDelete(user.additionalDetails);
+        // or 
+        await Profile.findByIdAndDelete({
+            _id:new mongoose.Types.ObjectId(user.additionalDetails),
+        })
         //HW: unenrolled user from all the courses 
+        for(const courseId of user.courses){
+            await Course.findByIdAndUpdate(courseId,{
+                    $pull : { studentEnrolled :userId},
+                
+                }, {new :true}
+            )
+        }
         // Hw: how to schadule the task for delete the account
+
         // delete the account(user)
+        await User.findByIdAndDelete({_id:userId})
+        // remove from the Course Progress
+        await CourseProgress.deleteMany({userId:userId})
         const delUser = await User.findByIdAndDelete(user._id);
+        
         return res.status(200).json({
             success:true,
             message:"Account Deleted SuccessFully",
