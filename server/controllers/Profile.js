@@ -9,8 +9,18 @@ const { default: mongoose } = require("mongoose");
 exports.updateDisplayPicture = async(req,res)=>{
     try {
         const img = req.files.displayPicture;
-        const userId = req.user.id;
+        const userId = req.user?.id;
         // console.log(img);
+        console.log("Server : ",req.files);
+        console.log("UserI ",userId);
+        
+        
+        if(!userId){
+            return res.status(400).json({
+                success:false,
+                message:"User id is undefined "+userId,
+            })
+        }
         const disPicCloudinary  = await imageUploadToCloudinary(img,process.env.FOLDER_NAME);
         // console.log(disPicCloudinary);
         
@@ -34,24 +44,30 @@ exports.updateDisplayPicture = async(req,res)=>{
     }
 }
 exports.updateProfile = async (req,res)=>{
+    console.log("UDATE PROFILE run");
+    
     try {
         // get data 
-        const {gender,dob="",about="",contactNumber}= req.body;
+        const {gender,dateOfBirth="",about="",contactNumber}= req.body;
+        // console.log(req.body)
         // get userid
         const userId = req.user.id;
+        // console.log(userId)
         // validation 
-        if(!gender || !dob || !about || !contactNumber || !userId){
+        if(!gender || !contactNumber || !userId){
+            console.log("1")
             return res.status(400).json({
                 success:false,
                 message:"All field is required",
             })
         }
+        console.log("2")
         // find and update
         const user = await User.findById(userId); 
         //METHOD 1
         const profile = await Profile.findByIdAndUpdate(user.additionalDetails,
                                                                 {
-                                                                    gender,dob,about,contactNumber
+                                                                    gender,dateOfBirth,about,contactNumber
                                                                 }
                                                                 ,{new:true});
 
@@ -68,6 +84,7 @@ exports.updateProfile = async (req,res)=>{
             success:true,
             message:"Profile Update SuccessFully",
             profile,
+            user
         })
         // return response
     } catch (error) {
@@ -80,6 +97,7 @@ exports.updateProfile = async (req,res)=>{
     }
 }
 exports.deleteAccount = async(req,res)=>{
+    console.log("DEL: account")
     try {
         //get id
         const userId = req.user.id;

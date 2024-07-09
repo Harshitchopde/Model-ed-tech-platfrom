@@ -24,13 +24,14 @@ export function updateDisplayPicture(token,formData){
             )
             console.log("UPDATE DISPLAY PICTURE ",response)
             if(!response.data.success){
+                toast.error(response.data.message)
                 throw new Error(response.data.success)
             }
             toast.success("Updated Display Picture");
             dispatch(setUser(response.data.user))
         } catch (error) {
             toast.error("Could Not Update Picture")
-            console.log("Error : ",error)
+            console.log("Error : ",error.message)
         }
         toast.dismiss(toastId);
     }
@@ -40,15 +41,19 @@ export function updateProfile(token,formData){
     return async(dispatch)=>{
         const toastId = toast.loading("Loading...")
         try {
+            console.log("Formdata : ",formData);
+            
             const response = await apiConnector("PUT",UPDATE_PROFILE_API,
                 formData,
                 {
                   Authorization: `Bearer ${token}`,
                 }
             )
-            console.log("UPDATE_PROFILE_API API RESPONSE............", response)
-
+            // console.log("UPDATE_PROFILE_API API RESPONSE............", response)
+            
             if(!response.data.success){
+                console.log("RES error : ",response.data)
+                toast.error(response.data.message)
                 throw new Error(response.data.success)
             }
             toast.success("Profile Updated SuccessFully");

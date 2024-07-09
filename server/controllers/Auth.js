@@ -176,9 +176,7 @@ exports.login = async(req,res)=>{
          })
      }
      // create JWT token
-     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,{
-         expiresIn:"2h"
-     });
+     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key);
      checkUser.token = token
      // create cookies
      const options = {
