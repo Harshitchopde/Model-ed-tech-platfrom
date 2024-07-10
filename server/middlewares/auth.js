@@ -12,6 +12,7 @@ exports.verifyAuth =async (req,res,next)=>{
                       req.body.token ||
                       req.header("Authorization").replace("Bearer ","");
         // check token is not empty
+        console.log("T1 ",req.cookies.access_token)
         console.log("Token : ",token);
         
         if(!token){
@@ -26,15 +27,15 @@ exports.verifyAuth =async (req,res,next)=>{
             const decode = await jwt.verify(token,process.env.JWT_SECRET_key);
             console.log("Decode : ",decode);
             req.user = decode
-            
+            console.log("Fine")
         } catch (error) {
-            console.log("Error : auth ",error)
+            console.log("Error : auth ",error.message)
             return res.status(401).json({
                 success:false,
                 message:"token is invalid!"+error
             })
         }
-        
+        console.log("AUTH:USER : ",req.user)
        next();
         
     } catch (error) {

@@ -84,6 +84,7 @@ export function login(
             }
             console.log(response.data)
             toast.success("Login successfull")
+            console.log("LOgin data ",response)
             dispatch(setToken(response.data.token))
             const image= response.data.user.image
             ?response.data.user.image

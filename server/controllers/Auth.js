@@ -176,7 +176,11 @@ exports.login = async(req,res)=>{
          })
      }
      // create JWT token
-     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key);
+     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,
+        {
+            expiresIn:"24h",
+        }
+     );
      checkUser.token = token
      // create cookies
      const options = {
@@ -202,9 +206,10 @@ exports.login = async(req,res)=>{
 
 //changePassword
 exports.changePassword = async(req,res)=>{
+    console.log("CHANGE PASSWORD RUN...")
     try {
         // Get user data from req.user
-        console.log(req.user)
+        console.log("CHnage userID ",req.user)
         const userDetails = await User.findById(req.user.id)
     
         // Get old password, new password, and confirm new password from req.body
@@ -216,11 +221,13 @@ exports.changePassword = async(req,res)=>{
           userDetails.password
         )
         if (!isPasswordMatch) {
-          // If old password does not match, return a 401 (Unauthorized) error
-          return res
+            console.log("1")
+            // If old password does not match, return a 401 (Unauthorized) error
+            return res
             .status(401)
             .json({ success: false, message: "The password is incorrect" })
         }
+        console.log("2")
     
         // Update password
         const encryptedPassword = await bcrypt.hash(newPassword, 10)
@@ -255,7 +262,8 @@ exports.changePassword = async(req,res)=>{
         return res
           .status(200)
           .json({ success: true, message: "Password updated successfully" })
-      } catch (error) {
+      } 
+      catch (error) {
         // If there's an error updating the password, log the error and return a 500 (Internal Server Error) error
         console.error("Error occurred while updating password:", error)
         return res.status(500).json({

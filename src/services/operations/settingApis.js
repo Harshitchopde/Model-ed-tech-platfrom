@@ -59,7 +59,7 @@ export function updateProfile(token,formData){
             toast.success("Profile Updated SuccessFully");
             dispatch(setUser(response.data.user))
         } catch (error) {
-            toast.error("Could Not Update Profile")
+            toast.error(error.response.data.message)
             console.log("Error : ",error)
         }
         toast.dismiss(toastId);
@@ -73,19 +73,21 @@ export async function changePassword(token,formData){
             const response = await apiConnector("POST",UPDATE_PASSWORD_API,
                 formData,
                 {
-                  Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 }
             )
             console.log("CHANGE PASSWORD API RESPONSE............", response)
 
             if(!response.data.success){
-                throw new Error(response.data.success)
+                // throw new Error(response.data.success)
             }
             toast.success("Password Change SuccessFully");
            
         } catch (error) {
-            toast.error("Could Not Change password")
-            console.log("Error : ",error)
+       
+            console.log("CHANGE_PASSWORD_API API ERROR............", error)
+            toast.error(error.response.data.message)
+          
         }
         toast.dismiss(toastId);
     
@@ -96,12 +98,10 @@ export function deleteProfile(token,navigate){
     return async(dispatch)=>{
         const toastId = toast.loading("Loading...")
         try {
-            const response = await apiConnector("DELETE",DELETE_PROFILE_API,
-                null,
-                {
-                  Authorization: `Bearer ${token}`,
-                }
-            )
+           
+            const response = await apiConnector("DELETE", DELETE_PROFILE_API, null, {
+                Authorization: `Bearer ${token}`,
+              })
             console.log("DELETE_PROFILE_API API RESPONSE............", response)
 
             if(!response.data.success){
@@ -110,8 +110,8 @@ export function deleteProfile(token,navigate){
             toast.success("Profile Delete SuccessFully");
             dispatch(logOut(navigate))
         } catch (error) {
-            toast.error("Could Not Update Profile")
-            console.log("Error : ",error)
+            toast.error("Could not delete profile")
+            console.log("DELETE_PROFILE_API API ERROR............", error)
         }
         toast.dismiss(toastId);
     }
