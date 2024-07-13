@@ -89,7 +89,7 @@ const EditProfile = () => {
                    message:"Date of birth can not be in future"
                  }
                 })}
-              defaultValue={user?.additionalDetails?.dob}
+              defaultValue={user?.additionalDetails?.dateOfBirth}
             />
             {errors.dateOfBirth && (
               <span className="-mt-1 text-[12px] text-yellow-100">

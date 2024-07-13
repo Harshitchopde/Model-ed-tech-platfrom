@@ -16,7 +16,7 @@ const DeleteAccount = () => {
     }
   }
   return (
-    <div className=' flex   bg-[#340019]  border border-[#4E0A25] rounded-md p-8 px-12'>
+    <div className=' flex  mt-10  bg-[#340019]  border border-[#4E0A25] rounded-md p-8 px-12'>
       <div className="flex gap-x-3">
         <div className="text-3xl">
         <RiDeleteBin5Line className=' rounded-full w-[50px] h-[50px] p-3 text-[#EF476F] bg-[#691432]'/>

@@ -4,13 +4,11 @@ import Logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from '../../data/navbar-links'
 import { useDispatch, useSelector } from 'react-redux'
 import { CiShoppingCart } from "react-icons/ci";
-import { apiConnector } from '../../services/apiconnnectors'
-import { categories } from '../../services/apis'
 import { FaAngleDown } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
-import { FiLogOut } from "react-icons/fi";
+
 import { logOut } from '../../services/operations/authApis'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 const subLinks = [
@@ -29,19 +27,7 @@ const subLinks = [
 
 
 ]
-const userTab = [
-  {
-    id: 1,
-    icon: <VscDashboard />,
-    title: "DashBoard",
-    link: "/dashboard/my-profile"
-  }, {
-    id: 2,
-    icon: <FiLogOut />,
-    title: "LogOut",
-    link: "/home"
-  }
-]
+
 const NavBar = () => {
   const location = useLocation();
   const matchRoute = (route) => {
@@ -54,6 +40,7 @@ const NavBar = () => {
   useOnClickOutside(ref,()=>setIsUserTabOpen(false))
   // redux storeage
   const { token } = useSelector((state) => state.auth);
+  // for future use case
   const { totalItems } = useSelector((state) => state.cart);
   // const [subLinks,setSubLinks] = useState([]);
   const { user } = useSelector((state) => state.profile);
@@ -125,7 +112,7 @@ const NavBar = () => {
         {/* Login and Sign up */}
         <div className="flex flex-row gap-x-5">
           {
-            user && user?.accountType !== "Instructor" && (
+            user &&( user?.accountType === "Admin" || user?.accountType === "Instructor" || user?.accountType ==="Student" )&& (
               <div className=" flex gap-4 ">
                 <Link to={"/dashboard/cart"} className='rounded-full p-2 bg-richblack-800 text-2xl'>
                   <IoMdSearch />

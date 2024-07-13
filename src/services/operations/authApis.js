@@ -99,7 +99,7 @@ export function login(
             navigate("/dashboard/my-profile")
 
         } catch (error) {
-            toast.error(error);
+            toast.error(error.response.data.message);
             console.log("Error : ",error)
         }
         dispatch(setLoading(false));

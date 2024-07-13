@@ -6,7 +6,7 @@ const profileSchema = mongoose.Schema({
         type:String,
         enum:["Male","Female","Other",null]
     },
-    dob:{
+    dateOfBirth:{
         // required:true,
         type:String,
      

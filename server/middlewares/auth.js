@@ -13,6 +13,7 @@ exports.verifyAuth =async (req,res,next)=>{
                       req.header("Authorization").replace("Bearer ","");
         // check token is not empty
         console.log("T1 ",req.cookies.access_token)
+        console.log("AUT: ",req.header("Authorization")?.replace("Bearer ",""));
         console.log("Token : ",token);
         
         if(!token){
