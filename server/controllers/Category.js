@@ -1,3 +1,4 @@
+const { populate } = require("dotenv");
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 
@@ -25,7 +26,7 @@ exports.createCategory = async (req, res) => {
 
     } catch (error) {
         console.log("Error in createCategory : ", error.message);
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
             message: error.message,
         })
@@ -34,14 +35,15 @@ exports.createCategory = async (req, res) => {
 }
 exports.showAllCategory = async (req, res) => {
     try {
-        const getAllTags = await Category.find({}, { name: true, desc: true });// make sure name and desc is comming
+        const getAllCategory = await Category.find({}, { name: true, desc: true });// make sure name and desc is comming
         return res.status(200).json({
             success: true,
             message: "All Category successfully fetched",
-            getAllTags
+            data:getAllCategory
         })
     } catch (error) {
-        return res.status(400).json({
+        console.log("Error ShowAllCategory ",error.message)
+        return res.status(500).json({
             success: false,
             message: error.message,
         })
@@ -53,34 +55,67 @@ exports.categoryPageDetails = async (req, res) => {
     try {
         // get categoryId 
         const { categoryId } = req.body;
+        console.log("Category Id ",categoryId)
         // get course for particular categorys
-        const getCategory = await Category.find(
+        const selectedCategory = await Category.find(
             { _id: categoryId }
-        ).populate("courses").exec();
+        ).populate({
+            path:"courses",
+            match:{status:"Published"},
+            populate:"ratingAndReviews"
+        }).exec();
         // validate
-        if (!getCategory) {
+        if (!selectedCategory) {
             return res.status(404).json({
                 success: false,
                 message: "Category not Found!"
             })
         }
-        // get Courses for different categorys course
-        const diffCategory = await Category.find({ _id: { $ne: categoryId } }).populate("courses").exec();
-        if (!diffCategory) {
+        // Handle the case in which their is not course
+        if(selectedCategory.courses.length ===0){
+            console.log("NO course found for this category.")
             return res.status(404).json({
-                success: false,
-                message: "Other Category not Found!"
+                success:false,
+                message:"Not course for this category"
             })
         }
-        // get top selling courses
-        const topSellingCourse = await Course.find({}).sort({ purchase: -1 });
+        // get Courses for different categorys course
+        const categoriesExceptSelected = await Category.find({ _id: { $ne: categoryId } }).populate("courses").exec();
+
+        let differentCategory = await Category.findOne(
+            categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
+              ._id
+          ).populate({
+            path:"courses",
+            match:{status:"Published"},
+          })
+          .exec();
+
+          // Get top-selling courses across all categories
+        const allCategory = await Category.find({}).sort({ purchase: -1 })
+        .populate({
+            path:"courses",
+            match:{status:"Published"},
+            populate:{
+                path:"instructor"
+            }
+        }).exec();
+
+        const allCourses = allCategory.flatMap((category)=>category.courses);
+
+        const mostSellingCourse = allCourses
+        .sort((a,b)=> b.sold -a.sold)
+        .slice(0,10);
+
+        console.log("Most selling courses ",mostSellingCourse);
+
         // return response 
         return res.status(200).json({
             success: true,
             data: {
-                category: getCategory,
-                differentCategory: diffCategory,
-                topSellingCourse,
+               selectedCategory,
+                differentCategory,
+                mostSellingCourses,
             }
 
         })
