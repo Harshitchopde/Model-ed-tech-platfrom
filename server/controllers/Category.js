@@ -1,6 +1,7 @@
 const { populate } = require("dotenv");
 const Category = require("../models/Category");
 const Course = require("../models/Course");
+const { getRandomInt } = require("../utils/getRandomInt");
 
 
 exports.createCategory = async (req, res) => {
@@ -103,11 +104,11 @@ exports.categoryPageDetails = async (req, res) => {
 
         const allCourses = allCategory.flatMap((category)=>category.courses);
 
-        const mostSellingCourse = allCourses
+        const mostSellingCourses = allCourses
         .sort((a,b)=> b.sold -a.sold)
         .slice(0,10);
 
-        console.log("Most selling courses ",mostSellingCourse);
+        console.log("Most selling courses ",mostSellingCourses);
 
         // return response 
         return res.status(200).json({
