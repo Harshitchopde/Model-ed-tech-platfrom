@@ -27,9 +27,9 @@ export const createRatingAndReview = async(req,res)=>{
                                         course:courseId,
                                     })
         if(alreadyReview){
-            return res.status(200).json({
+            return res.status(403).json({
                 success:false,
-                message:"Already reviewed the course",
+                message:"User Already reviewed the course",
             })
         }
         // now create the rating and review
@@ -48,11 +48,11 @@ export const createRatingAndReview = async(req,res)=>{
         return res.status(200).json({
             success:true,
             message:"Reviewed Successfull",
-            ratingAndReview,
+            ratingReview:ratingAndReview,
         })
     } catch (error) {
         console.log("Error in createRating : ",error.message);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:error.message,
         })
@@ -67,7 +67,7 @@ exports.getAverageRating = async(req,res)=>{
         const result = await RatingAndReview.aggregate([
             {
                 $match:{
-                    course:mongoose.Schema.Types.ObjectId(courseId)
+                    course:new  mongoose.Schema.Types.ObjectId(courseId)
                 }
             },
             {
@@ -85,11 +85,12 @@ exports.getAverageRating = async(req,res)=>{
         }
         return res.status(200).json({
             success:true,
+            message:"Avg rating 0 not rating till now",
             averageRating:0,
         })
     } catch (error) {
         console.log("Error in getAverageRating : ",error.message);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:error.message,
         })
@@ -106,16 +107,16 @@ export const getAllRatings = async(req,res)=>{
                                                 .populate({
                                                     path:"course",
                                                     select:"courseName courseDesc"
-                                                })
-                                                
+                                                })                                                
                                                 .exec();
         return res.status(200).json({
             success:true,
-            Ratings:allRating,
+            data:allRating,
+            message:"All reviews fetched successfully",
         })
     } catch (error) {
         console.log("Error in getAllRAting : ",error.message);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:error.message,
         })
