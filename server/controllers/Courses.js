@@ -205,15 +205,15 @@ exports.getAllCourse = async (req, res) => {
         }).populate("instructor").exec();
         // populate will replace the instructor field with actual instructor document
         return res.status(200).json({
-            status: true,
+            success: true,
             message: "All Course fetch successfully",
             data: allCourses
         })
     } catch (error) {
         console.log("Error in show all courses : ", error);
 
-        return res.status(400).json({
-            status: false,
+        return res.status(500).json({
+            success: false,
             message: error.message,
         })
     }

@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const Course = require("../models/Course")
 const RatingAndReview = require("../models/RatingAndReview")
 
-export const createRatingAndReview = async(req,res)=>{
+exports.createRatingAndReview = async(req,res)=>{
     try {
         const Userid = req.user.id;
         const {courseId,rating,review} = req.body;
@@ -97,7 +97,7 @@ exports.getAverageRating = async(req,res)=>{
     }
 }
 
-export const getAllRatings = async(req,res)=>{
+exports.getAllRatings = async(req,res)=>{
     try {
         const allRating = await RatingAndReview.find({})
                                                 .populate({
