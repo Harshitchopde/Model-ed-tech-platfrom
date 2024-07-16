@@ -34,7 +34,7 @@ connect();
 // cloudinary
 cloudinaryConnect();
 
-app.use("/api/v1/courses",courseRoutes)
+app.use("/api/v1/course",courseRoutes)
 app.use("/api/v1/payments",paymentRoutes)
 app.use("/api/v1/profile",profileRoutes)
 app.use("/api/v1/auth",usersRoutes)

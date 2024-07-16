@@ -70,7 +70,7 @@ export const fetchCourseCategories = async()=>{
                 if(!response.data.success){
                         throw new Error(response.data.message);
                 }
-                result = response.data;
+                result = response.data.data;
         } catch (error) {
                 console.log("COURSE_CATEGORIES_API DETAIS API ERROR",error.message);
                 console.log("COURSE_CATEGORIES_API DETAIS API ERROR .. ",error.response.data.message);
