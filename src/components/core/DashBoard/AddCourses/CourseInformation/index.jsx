@@ -1,9 +1,11 @@
 import React from 'react'
+import Upload from '../Upload'
 
 const CourseInformationForm = () => {
   return (
     <div>
-      Course Information 
+      Course Informasstion 
+      <Upload/>
     </div>
   )
 }
