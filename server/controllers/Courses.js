@@ -10,6 +10,8 @@ const SubSection = require("../models/SubSection");
 
 
 exports.createCourse = async (req, res) => {
+     console.log("CREATE COURSE SV");
+     
     try {
         //fetch req body data 
         console.log("Create Course ", req.body)
@@ -105,15 +107,15 @@ exports.createCourse = async (req, res) => {
             },
             { new: true })
         return res.status(200).json({
-            status: true,
+            success: true,
             message: "Course created successfully",
-            Course: newCourse,
+            data: newCourse,
         })
     } catch (error) {
         console.log(error);
 
         return res.status(400).json({
-            status: false,
+            success: false,
             message: "Fail to create the course",
             error: error.message,
         })

@@ -8,6 +8,9 @@ import toast from 'react-hot-toast'
 import { COURSE_STATUS } from '../../../../../utils/constants'
 import { HiOutlineCurrencyRupee} from "react-icons/hi"
 import ChipInput from './ChipInput'
+import Requirements from './Requirements'
+import IconBtn from '../../../../common/IconBtn'
+import { MdNavigateNext } from 'react-icons/md'
 const CourseInformationForm = () => {
   const {
     register,
@@ -16,21 +19,22 @@ const CourseInformationForm = () => {
     getValues,
     formState:{ errors},
   } = useForm()
-
+  
   const dispatch = useDispatch();
-  const token = useSelector((state)=>state.auth)
-  const { course,editCourse} = useSelector(state=>state.course)
+  const {token} = useSelector((state)=>state.auth)
+  const { step, course,editCourse} = useSelector(state=>state.course)
   const [loading,setLoading] = useState(false);
   const [courseCategories,setCourseCategories] = useState([])
-
-   console.log("Categories ",courseCategories)
+  
+  console.log("Step : ",step)
+  //  console.log("Categories ",courseCategories)
   useEffect(()=>{
     const getCategories = async ()=>{
       setLoading(true);
       const categories = await fetchCourseCategories();
-      console.log("categories res ",categories)
+      // console.log("categories res ",categories)
       if(categories?.length >0 ){
-        console.log("d")
+        // console.log("d")
         setCourseCategories(categories)
       }
       setLoading(false);
@@ -69,7 +73,6 @@ const CourseInformationForm = () => {
     }
     return false;
   }
-
 
   // handld next button 
   const onSubmit = async (data) =>{
@@ -133,7 +136,9 @@ const CourseInformationForm = () => {
     setLoading(true)
     const result  = await addCourseDetails(formData,token);
 
+    console.log("Result : ",result)
     if(result){
+      console.log("Result2 : ",result)
       dispatch(setStep(2))
       dispatch(setCourse(result))
     }
@@ -231,9 +236,56 @@ const CourseInformationForm = () => {
         />
 
         {/* Course Thumbnail Image */}
+        <Upload
+          name="courseImage"
+          label="Course Thumbnail"
+          register={register}
+          setValue={setValue}
+          error={errors}
+          editData={editCourse? course?.thumbnail : null}
+         />
         {/* Benefits of the course */}
+        <div className=" flex flex-col space-y-2">
+          <label htmlFor="courseBenefits" className='  text-sm text-richblack-5 '> Benefits of the Course <sup className=' text-pink-300'>*</sup></label>
+          <textarea id='courseBenefits'
+           {...register("courseBenefits",{required:true})}
+           className=' form-style resize-x-none min-h-[130px]'
+           placeholder='Enter the benefits of Course'/>
+           {
+            errors.courseBenefits && (
+              <span className=' ml-2 text-xs tracking-wide text-pink-200 '>
+                *Require
+              </span>
+            )
+           }
+        </div>
         {/*  Requirements / Instructions */}
+        <Requirements
+         name="courseRequirements"
+         label="Requirements/Instructions"
+         register={register}
+         setValue={setValue}
+         errors={errors}
+         getValues={getValues}
+        />
         {/*  Next Button */}
+        <div className=" flex justify-end gap-x-2">
+          {
+            editCourse && (
+              <button onClick={()=>dispatch(setStep(2))}
+               dispatch={loading}
+                className={` flex cursor-pointer items-center gap-x-2
+                   rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900  `}>
+                    Continue WithOut Saving
+              </button>
+
+            )
+          }
+          <IconBtn  disabled={loading}
+            text={!editCourse ? "Next" : "Save Changes"}>
+              <MdNavigateNext/>
+            </IconBtn>
+        </div>
        </form>
     </div>
   )

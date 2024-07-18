@@ -1,21 +1,24 @@
 const jwt = require("jsonwebtoken")
+const dotenv = require("dotenv");
+dotenv.config();
 // auth
 exports.verifyAuth =async (req,res,next)=>{
     try {
         // extract token 
 
-        // console.log("REQ : ",req);
+        // console.log("REQ : ",req.body);
+        // console.log("REQ : ",req.header("Authorization"));
         // console.log("REQCOOKIE : ",req.cookie);
         
         
-        const token = req.cookies.access_token ||
-                      req.body.token ||
+        let token = req.cookies.access_token ||
                       req.header("Authorization").replace("Bearer ","");
         // check token is not empty
         console.log("T1 ",req.cookies.access_token)
-        console.log("AUT: ",req.header("Authorization")?.replace("Bearer ",""));
+        console.log("AUT:",req.header("Authorization"));
         console.log("Token : ",token);
-        
+     
+        console.log("Tokan : ",token)
         if(!token){
             return res.status(400).json({
                 status:false,

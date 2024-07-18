@@ -8,6 +8,7 @@ import PublishForm from './Publish'
 const RenderSteps = () => {
   const { step } = useSelector((state) => state.course)
   // const step = 1;
+  console.log("REnder step : ",step)
   const steps = [
     {
       id: 1,

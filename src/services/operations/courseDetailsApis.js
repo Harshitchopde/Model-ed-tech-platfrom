@@ -83,6 +83,7 @@ export const fetchCourseCategories = async()=>{
 
 export const addCourseDetails = async(data,token)=>{
         const toastId = toast.loading("Loading...")
+        console.log("Token ",token)
         let result = null;
         try {
                 const response = await apiConnector("POST",CREATE_COURSE_API,data,{

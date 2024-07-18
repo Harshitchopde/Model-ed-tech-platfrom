@@ -8,7 +8,7 @@ const Upload = ({
   label,
   register,
   setValue,
-  errors,
+  error,
   video=false,
   viewData = null,
   editData = null,
@@ -23,12 +23,12 @@ const Upload = ({
     const onDrop = (acceptedFiles)=>{
       const file = acceptedFiles[0];
       if(file){
-        previewSource(file);
+        previewFile(file);
         setSelectedFile(file);
       }
     }
     // PreviewSource
-    console.log("Preview Source : ",previewSource)
+    // console.log("Preview Source : ",previewSource)
     const previewFile  = (file)=>{
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -61,7 +61,7 @@ const Upload = ({
         flex minh-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500`}>
           { previewSource 
           ? <div className=" flex w-full flex-col p-6">
-            // check for type and display accoudingly
+          
             {
               !video ? (
                 <img src={previewSource}
@@ -84,7 +84,7 @@ const Upload = ({
             )}
           </div>
           : (
-            <div className=' flex w-full flex-col item-center p-6'
+            <div className=' flex w-full  flex-col items-center py-12 p-6'
             {...getRootProps()}>
               <input {...getInputProps()} ref={inputRef}/>
               <div className=' grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800'>
@@ -100,7 +100,7 @@ const Upload = ({
             </div>
           )}
         </div>
-        {errors[name] && (
+      {error[name] && (
           <span className=' ml-2 text-xs tracking-wide text-pink-200'>
             {label} is required
           </span>
