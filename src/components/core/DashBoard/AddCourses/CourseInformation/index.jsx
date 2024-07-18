@@ -7,6 +7,7 @@ import { setCourse, setStep } from '../../../../../slices/courseSlicer'
 import toast from 'react-hot-toast'
 import { COURSE_STATUS } from '../../../../../utils/constants'
 import { HiOutlineCurrencyRupee} from "react-icons/hi"
+import ChipInput from './ChipInput'
 const CourseInformationForm = () => {
   const {
     register,
@@ -219,6 +220,16 @@ const CourseInformationForm = () => {
             )}
         </div>
         {/* Course Tags */}
+        <ChipInput
+         label="Tags"
+         name="courseTags"
+         placeholder="Enter tags and press Enter"
+         register={register}
+         errors={errors}
+         setValue={setValue}
+         getValues={getValues}
+        />
+
         {/* Course Thumbnail Image */}
         {/* Benefits of the course */}
         {/*  Requirements / Instructions */}
