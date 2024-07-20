@@ -36,7 +36,7 @@ exports.verifyAuth =async (req,res,next)=>{
             console.log("Error : auth ",error.message)
             return res.status(401).json({
                 success:false,
-                message:"token is invalid!"+error
+                message:error.message
             })
         }
         console.log("AUTH:USER : ",req.user)
