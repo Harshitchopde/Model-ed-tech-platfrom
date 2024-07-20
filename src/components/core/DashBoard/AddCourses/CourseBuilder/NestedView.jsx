@@ -8,6 +8,7 @@ import { AiFillCaretDown } from 'react-icons/ai'
 import { FaPlug, FaPlus } from 'react-icons/fa'
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import SubSectionModel from './SubSectionModel';
+import ConformationModel from '../../../../common/ConformationModel';
 const NestedView = ({ handleChangeEditSectionName }) => {
   // course
   const { course } = useSelector(state => state.course);
@@ -22,6 +23,7 @@ const NestedView = ({ handleChangeEditSectionName }) => {
 
   // to keep track of confirmation model
   const [conformationModel, setConformationModel] = useState(null);
+  console.log("ConformationModel ",conformationModel)
   // handle delete Section
   const handleDeleteSection = async (sectionId) => {
     const result = await deleteSection({
@@ -156,6 +158,10 @@ const NestedView = ({ handleChangeEditSectionName }) => {
         )
       }
       {/* Confirmation Model */}
+      {
+        conformationModel && (
+          <ConformationModel modelData={conformationModel}/> )
+      }
     </>
   )
 }
