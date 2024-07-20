@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
+import { IoAddCircleOutline } from "react-icons/io5"
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailsApis';
 import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlicer';
 import toast from 'react-hot-toast';
+import IconBtn from '../../../../common/IconBtn';
+import NestedView from './NestedView';
+import { MdNavigateNext } from "react-icons/md"
 
 
 const CourseBuilderForm= () => {
@@ -97,9 +101,50 @@ const CourseBuilderForm= () => {
           <label htmlFor='sectionName' className=' text-sm text-richblack-5'>Section Name <sup className='text-pink-200'>*</sup></label>
           <input className=' form-style w-full'
            id="sectionName"
-           disabled={}/>
+           disabled={loading}
+           placeholder='Add a section to build your course'
+           {...register("sectionName",{required:true})}
+           />
+           {errors.sectionName && (
+            <span className=' text-pink-200 text-xs ml-2 tracking-wide'>Section name is required</span>
+           )}
+
+        </div>
+        <div className=" flex items-end gap-x-4 ">
+          {/* <IconBtn type={"submit"}
+           disabled={loading}
+           customClass={"bg-richblack-800"}
+            text={editSectionName? "Edit Section Name":"Create Section Name"}>
+              <IoAddCircleOutline size={20} className=' text-yellow-50'/>
+
+            </IconBtn> */}
+            <button type='submit' disabled={loading}
+            className=' text-yellow-50  border-[1px] border-yellow-50 rounded-md flex  gap-x-2 py-2 px-4 font-semibold items-center'>
+              {editSectionName? "Edit Section Name":"Create Section"}
+              <IoAddCircleOutline size={20} className=' text-yellow-50'/>
+              {
+                editSectionName && (
+                  <button type='button' onClick={cancelEdit}
+                  className=' text-sm text-richblack-300 underline'>
+                    Cancel Edit
+                  </button>
+                )
+              }
+            </button>
         </div>
       </form>
+      {/* Section View all created */}
+      {course.courseContent.length >0 && (
+        <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
+      )}
+      {/* prev & Next Button */}
+      <div className=" flex justify-end gap-x-3">
+        <button onClick={goToBack}
+         className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900`}>prev</button>
+         <IconBtn disabled={loading}text="Next" onClick={goToNext}>
+          <MdNavigateNext/>
+         </IconBtn>
+      </div>
     </div>
   )
 }
