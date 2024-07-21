@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateSubSection } from '../../../../../services/operations/courseDetailsApis'
+import { createSubSection, updateSubSection } from '../../../../../services/operations/courseDetailsApis'
 import { setCourse } from '../../../../../slices/courseSlicer'
+import toast from 'react-hot-toast'
 
 const SubSectionModel = ({
     modelData,
@@ -73,6 +74,38 @@ const SubSectionModel = ({
         setLoading(false)
     }
     // onSubmit
+    const onSubmit = async (data)=>{
+        console.log("Data : ",data);
+
+        if(view)return;
+
+        if(edit){
+            if(!isFormUpdated){
+                toast.error("No Changes made in Form");
+            }
+            else{
+                handleEditSubSection()
+            }
+            return;
+        }
+        // create now copy data to FormData
+        const formData = new FormData();
+        formData.append("sectionId",modelData._id);
+        formData.append("title",data.lectureTitle);
+        formData.append("desc",data.lectureDesc);
+        formData.append("video",data.lectureVideo);
+        setLoading(true);
+        const result = await createSubSection(formData, token);
+        if(result){
+            // update the structure of Course
+            const updatedCourseContent = course.courseContent.map((section)=> section._id ===modelData.sectionId ? result :section)
+            const updatedCourse = {...course,courseContent:updatedCourseContent}
+            dispatch(setCourse(updatedCourse))
+        }
+        setModelData(null)
+        setLoading(false);
+
+    }
   return (
     <div>
       SubSection Model
