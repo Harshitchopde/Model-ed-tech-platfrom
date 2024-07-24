@@ -107,7 +107,7 @@ const SubSectionModel = ({
 
     }
   return (
-    <div>
+    <div className=' fixed inset-0 z-[100] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm'>
       SubSection Model
     </div>
   )
