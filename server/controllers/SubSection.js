@@ -12,8 +12,10 @@ exports.createSubSection = async (req,res)=>{
         // update section with this subsection id
         // return response
         const {title,timeDuration,desc,sectionId} = req.body;
+        // console.log(req.body)
+        // console.log(req.files)
         const videoFile = req.files.video;
-        console.log("Video : ",videoFile)
+        // console.log("Video : ",videoFile)
         if(!title || !desc || !videoFile || !sectionId){
             return res.status(400).json({
                 success:false,

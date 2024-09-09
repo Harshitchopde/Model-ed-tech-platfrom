@@ -241,7 +241,7 @@ const CourseInformationForm = () => {
           label="Course Thumbnail"
           register={register}
           setValue={setValue}
-          error={errors}
+          errors={errors}
           editData={editCourse? course?.thumbnail : null}
          />
         {/* Benefits of the course */}
