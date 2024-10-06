@@ -55,7 +55,7 @@ const Upload = ({
   return (
     <div className='flex flex-col space-y-2'>
       <label className=' text-sm text-richblack-5' htmlFor={name}>
-        {label} {!viewData && <sup className=' text-pink-300'>**</sup>}
+        {label} {!viewData && <sup className=' text-pink-300'>*</sup>}
       </label>
       <div className={`${
         isDragActive?" bg-richblack-600":"bg-richblack-700"}
