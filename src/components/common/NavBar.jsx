@@ -59,7 +59,7 @@ const NavBar = () => {
   //        fetchSublinks();
   //     },[])}
   return (
-    <div className=' h-14 flex  bg-richblack-900 border-b justify-center  border-b-richblack-700'>
+    <div className=' h-14 flex  bg-richblack-900   dark:bg-transparent border-b justify-center  border-b-richblack-700'>
       <div className=" w-11/12  flex items-center justify-between  max-w-maxContent">
         {/* Logo */}
         <Link to={"/"}>
