@@ -7,6 +7,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { FaAngleDown } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
+import { MdOutlineBedtime } from "react-icons/md";
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
 
 import { logOut } from '../../services/operations/authApis'
@@ -44,7 +45,17 @@ const NavBar = () => {
   const { totalItems } = useSelector((state) => state.cart);
   // const [subLinks,setSubLinks] = useState([]);
   const { user } = useSelector((state) => state.profile);
-  console.log("user", user?.image)
+  // console.log("user", user?.image)
+  const [darkMode,setDarkMode] = useState(false);
+  const handleToggle = ()=>{
+     setDarkMode(!darkMode);
+     const root = document.documentElement;
+     if(darkMode){
+        root.classList.add("alternate-theme")
+     }else{
+        root.classList.remove("alternate-theme")
+     }
+  }
   // -----------sub link part-----------
   // {    const fetchSublinks = async()=>{
   //       try {
@@ -59,7 +70,7 @@ const NavBar = () => {
   //        fetchSublinks();
   //     },[])}
   return (
-    <div className=' h-14 flex  bg-richblack-900   dark:bg-transparent border-b justify-center  border-b-richblack-700'>
+    <div className=' h-14 flex  bg-richblack-900   border-b justify-center  border-b-richblack-700'>
       <div className=" w-11/12  flex items-center justify-between  max-w-maxContent">
         {/* Logo */}
         <Link to={"/"}>
@@ -117,6 +128,9 @@ const NavBar = () => {
                 <Link to={"/dashboard/cart"} className='rounded-full p-2 bg-richblack-800 text-2xl'>
                   <IoMdSearch />
                 </Link>
+                <div className="rounded-full p-2 bg-richblack-800 text-2xl" onClick={handleToggle}>
+                   <MdOutlineBedtime/>
+                </div>
                 <Link to={"/dashboard/cart"} className='flex items-center text-2xl'>
                   <CiShoppingCart />
                 </Link>
