@@ -23,6 +23,7 @@ import Setting from './components/core/DashBoard/Settings/index.jsx';
 
 function App() {
   const {user} = useSelector((state)=> state.profile);
+
   return (
     <div className='flex flex-col font-inter bg-richblack-900 text-white  min-h-screen'>
       <NavBar/>

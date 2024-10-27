@@ -11,20 +11,6 @@ module.exports = {
       white: "#fff",
       black: "#000",
       transparent: "#ffffff00",
-      richblack: {
-        5: "#F1F2FF",
-        25: "#DBDDEA",
-        50: "#C5C7D4",
-        100: "#AFB2BF",
-        200: "#999DAA",
-        300: "#838894",
-        400: "#6E727F",
-        500: "#585D69",
-        600: "#424854",
-        700: "#2C333F",
-        800: "#161D29",
-        900: "#000814",
-      },
       richblue: {
         5: "#ECF5FF",
         25: "#C6D6E1",
@@ -125,6 +111,23 @@ module.exports = {
       },
     },
     extend: {
+        colors: {
+          richblack: {
+            5: 'var(--richblack-5)',
+            25: 'var(--richblack-25)',
+            50: 'var(--richblack-50)',
+            100: 'var(--richblack-100)',
+            200: 'var(--richblack-200)',
+            300: 'var(--richblack-300)',
+            400: 'var(--richblack-400)',
+            500: 'var(--richblack-500)',
+            600: 'var(--richblack-600)',
+            700: 'var(--richblack-700)',
+            800: 'var(--richblack-800)',
+            900: 'var(--richblack-900)',
+          },
+        },
+      
       maxWidth: {
         maxContent: "1260px",
         maxContentTab: "650px"
