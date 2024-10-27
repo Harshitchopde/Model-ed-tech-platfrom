@@ -122,15 +122,16 @@ const NavBar = () => {
         </div>
         {/* Login and Sign up */}
         <div className="flex flex-row gap-x-5">
+        <div className="rounded-full p-2 bg-richblack-800 text-2xl" onClick={handleToggle}>
+                   <MdOutlineBedtime/>
+                </div>
           {
             user &&( user?.accountType === "Admin" || user?.accountType === "Instructor" || user?.accountType ==="Student" )&& (
               <div className=" flex gap-4 ">
                 <Link to={"/dashboard/cart"} className='rounded-full p-2 bg-richblack-800 text-2xl'>
                   <IoMdSearch />
                 </Link>
-                <div className="rounded-full p-2 bg-richblack-800 text-2xl" onClick={handleToggle}>
-                   <MdOutlineBedtime/>
-                </div>
+                
                 <Link to={"/dashboard/cart"} className='flex items-center text-2xl'>
                   <CiShoppingCart />
                 </Link>
