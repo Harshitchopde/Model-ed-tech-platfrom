@@ -11,7 +11,7 @@ export const authEndpoints = {
     // DELETEPROFILE_API:BASE_URL+"/auth/deleteProfile",
 }
 export const categoriesEndpoints ={
-    CATEGORIES_API: BASE_URL+"/courses/showAllCategories",
+    CATEGORIES_API: BASE_URL+"/course/showAllCategories",
 }
 
 export const profileEndpoints = {

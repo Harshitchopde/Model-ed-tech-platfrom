@@ -8,25 +8,26 @@ import { FaAngleDown } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
-
+import { categoriesEndpoints } from '../../services/apis'
 import { logOut } from '../../services/operations/authApis'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
-const subLinks = [
+import { apiConnector } from '../../services/apiconnnectors'
+// const subLinks = [
 
-  {
-    title: "python",
-    link: "/catalog/python"
-  },
-  {
-    title: "web dev",
-    link: "/catalog/web-dev"
-  }, {
-    title: "python",
-    link: "/catalog/python"
-  },
+//   {
+//     title: "python",
+//     link: "/catalog/python"
+//   },
+//   {
+//     title: "web dev",
+//     link: "/catalog/web-dev"
+//   }, {
+//     title: "python",
+//     link: "/catalog/python"
+//   },
 
 
-]
+// ]
 
 const NavBar = () => {
   const location = useLocation();
@@ -42,22 +43,24 @@ const NavBar = () => {
   const { token } = useSelector((state) => state.auth);
   // for future use case
   const { totalItems } = useSelector((state) => state.cart);
-  // const [subLinks,setSubLinks] = useState([]);
+  const [subLinks,setSubLinks] = useState([]);
   const { user } = useSelector((state) => state.profile);
   console.log("user", user?.image)
+  console.log("Sublink > ",subLinks)
   // -----------sub link part-----------
-  // {    const fetchSublinks = async()=>{
-  //       try {
-  //          const res = await apiConnector("GET",categories.CATEGORIES_API)
-  //          console.log(res.data)
-  //          setSubLinks(res.data.data);
-  //       } catch (error) {
-  //          console.log("Error occur : ",error)
-  //       }
-  //     }
-  //     useEffect(()=>{
-  //        fetchSublinks();
-  //     },[])}
+  {    const fetchSublinks = async()=>{
+        try {
+           const res = await apiConnector("GET",categoriesEndpoints.CATEGORIES_API)
+           console.log(res.data)
+           setSubLinks(res.data.data);
+        } catch (error) {
+           console.log("Error occur : ",error)
+        }
+      }
+      useEffect(()=>{
+         fetchSublinks();
+      },[])
+    }
   return (
     <div className=' h-14 flex  bg-richblack-900   dark:bg-transparent border-b justify-center  border-b-richblack-700'>
       <div className=" w-11/12  flex items-center justify-between  max-w-maxContent">
@@ -82,14 +85,19 @@ const NavBar = () => {
                           </p>
                           <div className=" group-hover:visible  z-50 invisible transition-all duration-200 translate-y-[30%] lg:w-[300px]  p-4  bg-richblack-5 text-richblack-800 rounded-md
                                absolute top-[50%]  translate-x-[-40%] ">
-                            <div className=" group-hover:visible invisible rotate-45 top-0  p-4  bg-richblack-5 text-richblack-800 rounded-md
+                            <div className=" group-hover:visible invisible rotate-45 -z-40 top-0  p-4  bg-richblack-5 text-richblack-800 rounded-md
                                absolute  translate-y-[-50%]  right-[30%] h-4 w-4  transition-all duration-200
                                "></div>
                             {
                               subLinks?.length ? (
                                 subLinks.map((ele, i) => (
-                                  <Link to={ele.link} key={i}>
-                                    <div className=''>{ele.title}</div>
+                                  <Link to={`/catalog/${ele?.name
+                                    .split(" ")
+                                    .join("-")
+                                    .toLowerCase()}`}
+                                    
+                                     key={i}>
+                                    <div className='  rounded-lg  bg-transparen py-2 pl-2 hover:bg-richblack-50'>{ele.name}</div>
                                   </Link>
                                 ))
                               ) : (<div></div>)
