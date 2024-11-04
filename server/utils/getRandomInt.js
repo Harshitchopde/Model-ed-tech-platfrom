@@ -1,5 +1,5 @@
-function getRandomInt(max){
+exports.getRandomInt = async (max) =>{
     return Math.floor(Math.random()*max);
 }
 
-module.exports = getRandomInt
+// module.exports = getRandomInt

@@ -13,6 +13,10 @@ export const authEndpoints = {
 export const categoriesEndpoints ={
     CATEGORIES_API: BASE_URL+"/course/showAllCategories",
 }
+// CATALOG PAGE DATA
+export const catalogData = {
+    CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
+  }
 
 export const profileEndpoints = {
     GET_USER_DETAILS_API:BASE_URL+"/profile/getUserDetails",

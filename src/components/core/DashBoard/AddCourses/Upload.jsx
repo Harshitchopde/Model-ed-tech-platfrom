@@ -19,7 +19,7 @@ const Upload = ({
       viewData? viewData : editData ?editData : ""
     )
     const inputRef = useRef(null);
- console.log("PreSrc : ",previewSource)
+//  console.log("PreSrc : ",previewSource)
     const onDrop = (acceptedFiles)=>{
       const file = acceptedFiles[0];
       if(file){

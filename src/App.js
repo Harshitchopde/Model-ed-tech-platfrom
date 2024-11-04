@@ -20,6 +20,8 @@ import MyCourses from './components/core/DashBoard/MyCourses.jsx';
 import EditCourses from './components/core/DashBoard/EditCourses/index.jsx';
 import MyProfile from './components/core/DashBoard/MyProfile.jsx';
 import Setting from './components/core/DashBoard/Settings/index.jsx';
+import OpenRoute from './components/core/Auth/OpenRoute.jsx';
+import Catalog from './pages/Catalog.jsx';
 
 function App() {
   const {user} = useSelector((state)=> state.profile);
@@ -29,8 +31,17 @@ function App() {
     <Routes>
       <Route path='/'>
         <Route index element={<Home/>}/>
-        <Route path='login' element={<Login/>}/>
-        <Route path='signup' element={<SignUp/>}/>
+        <Route path='catalog/:catalogName' element={<Catalog/>}/>
+        <Route path='login' element={
+          <OpenRoute>
+            <Login/>
+          </OpenRoute>
+        }/>
+        <Route path='signup' element={
+          <OpenRoute>
+           <SignUp/>
+         </OpenRoute>
+        }/>
         <Route path='verify-email' element={<Verify_email/>}/>
       </Route>
       <Route element={
