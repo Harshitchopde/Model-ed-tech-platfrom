@@ -18,15 +18,15 @@ exports.createCourse = async (req, res) => {
         const { courseName,
             courseDesc,
             whatYouWillLearn,
-            status,
-            tag: _tag,
+            tags: _tags,
             instructions: _instructions,
             price, category } = req.body;
+        let { status} = req.body
         // get thumbnail file
         const thumbnail = req.files.thumbnailImage;
-
+        console.log("File ",req.files);
         // convert the stringify tag and instruction to array
-        const tag = JSON.parse(_tag)
+        const tag = JSON.parse(_tags)
         const instructions = JSON.parse(_instructions);
         console.log("Tag ", tag)
         console.log("Instructions ", instructions)
@@ -38,19 +38,30 @@ exports.createCourse = async (req, res) => {
             !price ||
             !category ||
             !tag ||
-            !instructions.length ||
+            !instructions ||
             !thumbnail) {
             return res.status(400).json({
                 success: false,
-                body: req.body,
-
+                body: {
+                    courseName,
+                    courseDesc,
+                    whatYouWillLearn,
+                    price,
+                    category,
+                    tag,
+                    instructions,
+                    thumbnail
+                },
+                
                 message: "All field is require",
             })
 
         }
+ 
         //  status check
+
         if (!status || status === undefined) {
-            status = "Draft"
+             status = "Draft"
         }
         // check for instructor
         const instructorId = req.user.id;
@@ -73,9 +84,8 @@ exports.createCourse = async (req, res) => {
                 message: "Invalid Category",
             })
         }
-
         // Upload Image to Cloudinary
-        const imageUpload = imageUploadToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        const imageUpload = await imageUploadToCloudinary(thumbnail, process.env.FOLDER_NAME);
         console.log("Upload : ", imageUpload)
         //  Create a new course with the given details
         const newCourse = await Course.create({
@@ -133,7 +143,7 @@ exports.editCourse = async (req, res) => {
             // console.log("Eror  : ",)
             return req.status(404).json({
                 success: false,
-                error: error.message,
+                error: "",
                 message: "Course not found!"
             })
         }

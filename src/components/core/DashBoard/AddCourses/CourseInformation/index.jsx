@@ -46,7 +46,7 @@ const CourseInformationForm = () => {
        setValue("courseTitle",course.courseName);
        setValue("courseShortDesc",course.courseDesc);
        setValue("coursePrice",course.price);
-       setValue("courseTags",course.tag);
+       setValue("courseTags",course.tags);
        setValue("courseBenefits",course.whatYouWillLearn);
        setValue("courseCategory",course.category);
        setValue("courseRequirements",course.instructions);
@@ -59,15 +59,16 @@ const CourseInformationForm = () => {
   const isFormUpdated = ()=>{
     const currValues = getValues();
     console.log("After changes : ",currValues)
+    console.log("Before changes : ",course)
     if(
       currValues.courseTitle !== course.courseName ||
       currValues.courseShortDesc !== course.courseDesc ||
       currValues.coursePrice !== course.price ||
-      currValues.courseTags.toString() !== course.tag.toString() ||
+      currValues.courseTags.toString() !== course.tags.toString() ||
       currValues.courseBenefits !== course.whatYouWillLearn ||
       currValues.courseCategory._id !== course.categories._id ||
       currValues.courseRequirements.toString() !== course.instructions.toString() ||
-      currValues.courseImage !== course.thumbnail
+      currValues?.courseImage !== course?.thumbnail
     ){
       return true;
     }
@@ -93,8 +94,8 @@ const CourseInformationForm = () => {
         if (currValues.coursePrice !== course.price) {
           formData.append("price", data.coursePrice)
         }
-        if (currValues.courseTags.toString() !== course.tag.toString()) {
-          formData.append("tag", JSON.stringify(data.courseTags))
+        if (currValues.courseTags.toString() !== course.tags.toString()) {
+          formData.append("tags", JSON.stringify(data.courseTags))
         }
         if (currValues.courseBenefits !== course.whatYouWillLearn) {
           formData.append("whatYouWillLearn", data.courseBenefits)
@@ -127,7 +128,7 @@ const CourseInformationForm = () => {
     formData.append("courseName", data.courseTitle)
     formData.append("courseDesc", data.courseShortDesc)
     formData.append("price", data.coursePrice)
-    formData.append("tag", JSON.stringify(data.courseTags))
+    formData.append("tags", JSON.stringify(data.courseTags))
     formData.append("whatYouWillLearn", data.courseBenefits)
     formData.append("category", data.courseCategory)
     formData.append("status", COURSE_STATUS.DRAFT)

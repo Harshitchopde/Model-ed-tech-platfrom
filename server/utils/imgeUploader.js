@@ -13,7 +13,7 @@ exports.imageUploadToCloudinary = async (file, folder, height, quality) => {
         // return await cloudinary.uploader.upload(file.tempFilePath,options);
        
         // Use the 'on' method to listen for the 'progress' event in upload_stream insted of uplaod
-
+            
         return await cloudinary.uploader.upload(file.tempFilePath, options);
     } catch (error) {
         console.log("Error in Uploading to Cloudinary : ", error.message);
