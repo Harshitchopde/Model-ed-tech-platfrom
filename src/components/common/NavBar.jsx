@@ -47,6 +47,16 @@ const NavBar = () => {
   const [subLinks,setSubLinks] = useState([]);
   const { user } = useSelector((state) => state.profile);
   console.log("user", user?.image)
+  const [darkMode,setDarkMode] = useState(false);
+  const handleToggle = ()=>{
+     setDarkMode(!darkMode);
+     const root = document.documentElement;
+     if(darkMode){
+        root.classList.add("alternate-theme")
+     }else{
+        root.classList.remove("alternate-theme")
+     }
+  }
   // -----------sub link part-----------
   {    const fetchSublinks = async()=>{
         try {
