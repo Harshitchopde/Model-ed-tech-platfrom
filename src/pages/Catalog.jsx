@@ -104,14 +104,15 @@ const Catalog = () => {
                 New
               </p>
             </div>
-            <div className=" border border-white">
+            <div className=" border">
               <CourseSlider
                 Courses={catalogPageData?.data?.selectedCategory?.courses}
               />
             </div>
           </div>
+       
           {/* Section 2 */}
-          <div className=" border-white border mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+          <div className=" border mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
             <div className="section_heading">
               Top courses in {catalogPageData?.data?.differentCategory?.name}
             </div>
@@ -121,7 +122,7 @@ const Catalog = () => {
               />
             </div>
           </div>
-          
+        
           {/* Section 3 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
             <div className="section_heading">Frequently Bought</div>

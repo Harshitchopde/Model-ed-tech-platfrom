@@ -10,7 +10,7 @@ const SubSection = require("../models/SubSection");
 
 
 exports.createCourse = async (req, res) => {
-     console.log("CREATE COURSE SV");
+     console.log("CREATE COURSE ");
      
     try {
         //fetch req body data 
