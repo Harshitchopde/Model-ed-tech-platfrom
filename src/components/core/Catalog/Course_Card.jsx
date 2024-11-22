@@ -12,7 +12,7 @@ const Course_Card = ({course, Height}) => {
         setAvgReviewCount(count);
     },[course])
 
-    console.log("Working Course Card : ",course)
+    // console.log("Working Course Card : ",course)
     
 
     

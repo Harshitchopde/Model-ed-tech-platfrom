@@ -20,7 +20,7 @@ exports.capturePayment = async(req,res) =>{
                 message:"Invalid User"
             })
         } 
-        const course = await Course.findById(course_Id);
+        const course = await Course.findById(courseId);
         if(!course){
             return res.status(400).json({
                 success:false,
