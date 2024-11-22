@@ -66,11 +66,20 @@ function CourseDetails() {
   // Total number of lectures
   const [totalNoOfLectures, setTotalNoOfLectures] = useState(0)
   useEffect(() => {
-    let lectures = 0
-    response?.data?.courseDetails?.courseContent?.forEach((sec) => {
-      lectures += sec.subSection.length || 0
-    })
-    setTotalNoOfLectures(lectures)
+    // let lectures = 0
+    // response?.data?.courseDetails?.courseContent?.forEach((sec) => {
+    //   lectures += sec.subSection.length || 0
+    // })
+
+    const calculateTotalLectures = () => {
+      return (
+        response?.data?.courseDetails?.courseContent?.reduce(
+          (total, section) => total + (section.subSection?.length || 0),
+          0
+        ) || 0
+      );
+    };
+    setTotalNoOfLectures(calculateTotalLectures());
   }, [response])
 
   if (loading || !response) {

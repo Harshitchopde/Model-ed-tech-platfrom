@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import GetAvgRating from "../../../utils/avgRating";
 import { Link } from "react-router-dom";
-
+import React from 'react'
 const Course_Card = ({course, Height}) => {
 
 

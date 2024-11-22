@@ -59,5 +59,5 @@ const cartSilce = createSlice({
     }
 })
 
-export const {setTotalItems,resetCart} = cartSilce.actions;
+export const {addToCart,removeFromCart,resetCart} = cartSilce.actions;
 export default cartSilce.reducer;
