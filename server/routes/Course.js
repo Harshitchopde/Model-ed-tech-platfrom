@@ -49,7 +49,7 @@ routes.post("/createCourse",verifyAuth,isInstructor,createCourse)
 routes.post("/addSection",verifyAuth,isInstructor,createSection)
 routes.post("/updateSection",verifyAuth,isInstructor,updateSection)
 routes.post("/deleteSection",verifyAuth,isInstructor,deleteSection)
-routes.post("/getCourseDetails",verifyAuth,isInstructor,getCourseDetails)
+routes.get("/getCourseDetails",getCourseDetails)
 
 
 // subSection routes

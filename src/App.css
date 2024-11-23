@@ -45,6 +45,10 @@ html,body{
 .homepage_bg{
   background: url("../src/assets/Images/bghome.svg");
 }
+
+.section_heading{
+  font-size: large;
+}
 .codeblock2 {
   position: absolute;
   width: 372.95px;

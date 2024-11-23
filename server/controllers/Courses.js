@@ -10,7 +10,7 @@ const SubSection = require("../models/SubSection");
 
 
 exports.createCourse = async (req, res) => {
-     console.log("CREATE COURSE SV");
+     console.log("CREATE COURSE ");
      
     try {
         //fetch req body data 
@@ -261,11 +261,23 @@ exports.getCourseDetails = async (req, res) => {
                 message: `Course Not Found! with courseID ${courseId}`
             })
         }
+        let totalDurationInSecond = 0;
+        
+        courseDetails.courseContent.forEach((section)=>{
+            section.subSection.forEach((subSection)=>{
+                const timeDurationInSecond = parseInt(subSection.timeDuration);
+                totalDurationInSecond+=timeDurationInSecond;
+            })
+        })
+        const totalDuration = convertSecToDuration(totalDurationInSecond);
         // return response
         return res.status(200).json({
             success: true,
             message: "Course Detail fetch successfully",
-            data: courseDetails,
+            data: {
+                courseDetails,
+                totalDuration,
+            },
         })
     } catch (error) {
         console.log("Error in getCourseDetails : ", error.message);

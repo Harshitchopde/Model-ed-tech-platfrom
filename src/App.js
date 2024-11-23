@@ -1,7 +1,7 @@
 
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-
+import React from 'react'
 import Home from "./pages/Home.jsx";
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
@@ -22,6 +22,7 @@ import MyProfile from './components/core/DashBoard/MyProfile.jsx';
 import Setting from './components/core/DashBoard/Settings/index.jsx';
 import OpenRoute from './components/core/Auth/OpenRoute.jsx';
 import Catalog from './pages/Catalog.jsx';
+import CourseDetails from './pages/CourseDetails.jsx';
 
 function App() {
   const {user} = useSelector((state)=> state.profile);
@@ -33,6 +34,7 @@ function App() {
       <Route path='/'>
         <Route index element={<Home/>}/>
         <Route path='catalog/:catalogName' element={<Catalog/>}/>
+        <Route path='courses/:courseId' element={<CourseDetails/>}/>
         <Route path='login' element={
           <OpenRoute>
             <Login/>

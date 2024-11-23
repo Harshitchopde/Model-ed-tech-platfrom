@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from 'react'
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { apiConnector } from "../services/apiconnnectors";
@@ -104,14 +105,15 @@ const Catalog = () => {
                 New
               </p>
             </div>
-            <div className=" border border-white">
+            <div className=" pb-5 border-b border-b-richblack-600" >
               <CourseSlider
                 Courses={catalogPageData?.data?.selectedCategory?.courses}
               />
             </div>
           </div>
+                
           {/* Section 2 */}
-          <div className=" border-white border mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+          <div className="  border-b pb-5 border-b-richblack-600 mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
             <div className="section_heading">
               Top courses in {catalogPageData?.data?.differentCategory?.name}
             </div>
@@ -121,7 +123,7 @@ const Catalog = () => {
               />
             </div>
           </div>
-          
+        
           {/* Section 3 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
             <div className="section_heading">Frequently Bought</div>
