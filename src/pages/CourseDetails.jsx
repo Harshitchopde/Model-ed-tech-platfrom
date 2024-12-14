@@ -16,6 +16,7 @@ import { fetchCourseDetails } from "../services/operations/courseDetailsApis"
 import { buyCourse } from "../services/operations/studentFeaturesAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
+import toast from "react-hot-toast"
 
 function CourseDetails() {
   const { user, loading } = useSelector((state) => state.profile)
@@ -28,27 +29,25 @@ function CourseDetails() {
   console.log(`course id: ${courseId}`)
   const [response, setResponse] = useState(null)
   const [confirmationModal, setConfirmationModal] = useState(null)
-  useEffect(() => {
-    // Calling fetchCourseDetails fucntion to fetch the details
-    const fetchCourseDetail = async (courseId)=>{
-      try {
-        const res = await fetchCourseDetails(courseId)
-        console.log("course details res: ", res)
-        setResponse(res)
-      } catch (error) {
-        console.log("Could not fetch Course Details ",error)
-      }
+  useEffect(()=>{
+    
+    const fetchDetailsRes = async (courseId)=>{
+        try {
+          const res = await fetchCourseDetails(courseId);
+          setResponse(res)
+        } catch (error) {
+          console.log("Could not fetch course details : ",error);
+        }
     }
-    fetchCourseDetail(courseId);
-   
-  }, [courseId])
+    fetchDetailsRes(courseId);
+  },[courseId])
 
   console.log("response: ", response)
 
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
-    const count = GetAvgRating(response?.data?.courseDetails.ratingAndReviews)
+    const count = GetAvgRating(response?.data?.courseDetails?.ratingAndReviews)
     setAvgReviewCount(count)
   }, [response])
   console.log("avgReviewCount: ", avgReviewCount)
@@ -58,9 +57,9 @@ function CourseDetails() {
   const handleActive = (id) => {
     // console.log("called", id)
     setIsActive(
-      !isActive.includes(id)
+      !isActive?.includes(id)
         ? isActive.concat([id])
-        : isActive.filter((e) => e != id)
+        : isActive.filter((e) => e !== id)
     )
   }
 
@@ -156,10 +155,10 @@ function CourseDetails() {
               </div>
               <p className={`text-richblack-200`}>{courseDescription}</p>
               <div className="text-md flex flex-wrap items-center gap-2">
-                <span className="text-yellow-25">{avgReviewCount}</span>
-                <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                <span>{`${studentsEnrolled.length} students enrolled`}</span>
+                <span className="text-yellow-25">{avgReviewCount || 0}</span>
+                <RatingStars Review_Count={avgReviewCount || 0} Star_Size={24} />
+                <span>{`(${ratingAndReviews?.length} reviews)`}</span>
+                <span>{`${studentsEnrolled?.length} students enrolled`}</span>
               </div>
               <div>
                 <p className="">

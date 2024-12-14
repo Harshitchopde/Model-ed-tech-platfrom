@@ -14,7 +14,7 @@ exports.createCourse = async (req, res) => {
      
     try {
         //fetch req body data 
-        console.log("Create Course ", req.body)
+        // console.log("Create Course ", req.body)
         const { courseName,
             courseDesc,
             whatYouWillLearn,
