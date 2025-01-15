@@ -82,10 +82,10 @@ export function login(
                 toast.error(response.data.message);
                 throw new Error(response.data.message);
             }
-            console.log(response.data)
+            // console.log(response.data)
             toast.success("Login successfull")
-            console.log("LOgin data ",response)
-            console.log("Totkn login :",response.data.token)
+            // console.log("LOgin data ",response)
+            // console.log("Totkn login :",response.data.token)
             dispatch(setToken(response.data.token))
             const image= response.data.user.image
             ?response.data.user.image
