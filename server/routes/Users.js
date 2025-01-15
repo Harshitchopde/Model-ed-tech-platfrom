@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { signUp, login, changePassword, sendOTP } from "../controllers/auth.js";
+// import { signUp, login, changePassword, sendOTP } from "../controllers/auth.js";
+import {signUp,login,changePassword,sendOTP} from "../controllers/Auth.js"
 import { resetPasswordToken, resetPassword } from "../controllers/resetPassword.js";
 import { deleteAccount } from "../controllers/Profile.js";
 import { verifyAuth } from "../middlewares/auth.js";
