@@ -1,12 +1,12 @@
-const { default: mongoose } = require("mongoose");
-const Course = require("../models/Course");
-const User = require("../models/User");
-const { instance } = require("../configs/razorpay");
-const mailSender = require("../utils/mailSender");
-const { courseEnrollementEmail } = require("../mails/templates/courseEnrollementEmail");
+import { default as mongoose } from "mongoose";
+import Course from "../models/Course.js";
+import User from "../models/User.js";
+import { instance } from "../configs/razorpay.js";
+import mailSender from "../utils/mailSender.js";
+import { courseEnrollementEmail } from "../mails/templates/courseEnrollementEmail.js";
 
 
-exports.capturePayment = async(req,res) =>{
+export async function capturePayment(req,res){
      // get course_ID and UserId
      const {courseId} = req.body;
      const userId = req.user.id;
@@ -80,7 +80,7 @@ exports.capturePayment = async(req,res) =>{
 }
 
 //verify Payment Signature
-exports.verifySignature = async(req,res) =>{
+export async function verifySignature(req,res){
     const webHookSecret = "riueryewi4";
     const signature = req.headers["x-razorpay-signature"];
 

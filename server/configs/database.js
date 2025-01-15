@@ -1,15 +1,14 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
-exports.connect =async ()=>{
+export const connect = async()=>{
     await mongoose.connect(process.env.MONGO_URL,{
         useNewUrlParser:true,
         useUnifiedTopology:true,
     })
     .then(()=>{
-        console.log("Connected to Mongodb ")
+        console.log("Connected to MONGO DB")
     })
     .catch((err)=>{
-        console.log("Error Occure : ",err);
-        
+        console.log("Error on connecting MongoDb , ",err);
     })
 }

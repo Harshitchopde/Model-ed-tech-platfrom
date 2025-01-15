@@ -1,10 +1,10 @@
-const { populate } = require("dotenv");
-const Category = require("../models/Category");
-const Course = require("../models/Course");
-const { getRandomInt } = require("../utils/getRandomInt");
+import { populate } from "dotenv";
+import Category from "../models/Category.js";
+import Course from "../models/Course.js";
+import { getRandomInt } from "../utils/getRandomInt.js";
 
 
-exports.createCategory = async (req, res) => {
+export async function createCategory(req, res) {
     try {
         const { name, desc } = req.body;
         // validation 
@@ -34,7 +34,7 @@ exports.createCategory = async (req, res) => {
 
     }
 }
-exports.showAllCategory = async (req, res) => {
+export async function showAllCategory(req, res) {
     try {
         const getAllCategory = await Category.find({}, { name: true, desc: true ,courses:true});// make sure name and desc is comming
         console.log("Show All CAtegory ")
@@ -53,7 +53,7 @@ exports.showAllCategory = async (req, res) => {
 }
 
 // getCategoryPageDetails 
-exports.categoryPageDetails = async (req, res) => {
+export async function categoryPageDetails(req, res) {
     try {
         // get categoryId 
         const { categoryId } = req.body;

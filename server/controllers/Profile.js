@@ -1,12 +1,13 @@
-const { populate } = require("dotenv");
-const Course = require("../models/Course")
-const Profile = require("../models/Profile");
-const User = require("../models/User");
-const { imageUploadToCloudinary } = require("../utils/imgeUploader");
-const { convertSecToDuration } = require("../utils/secToDur");
-const CourseProgress = require("../models/CourseProgress");
-const { default: mongoose } = require("mongoose");
-exports.updateDisplayPicture = async(req,res)=>{
+import { populate } from "dotenv";
+import Course from "../models/Course.js";
+import Profile from "../models/Profile.js";
+import User from "../models/User.js";
+import { imageUploadToCloudinary } from "../utils/imgeUploader.js";
+import { convertSecToDuration } from "../utils/secToDur.js";
+
+import CourseProgress from "../models/CourseProgress.js";
+import { default as mongoose } from "mongoose";
+export async function updateDisplayPicture(req,res){
     try {
         const img = req.files.displayPicture;
         const userId = req.user?.id;
@@ -43,7 +44,7 @@ exports.updateDisplayPicture = async(req,res)=>{
         })
     }
 }
-exports.updateProfile = async (req,res)=>{
+export async function updateProfile(req,res){
     console.log("UDATE PROFILE run");
     
     try {
@@ -96,7 +97,7 @@ exports.updateProfile = async (req,res)=>{
         })
     }
 }
-exports.deleteAccount = async(req,res)=>{
+export async function deleteAccount(req,res){
     console.log("DEL: account")
     try {
         //get id
@@ -148,7 +149,7 @@ exports.deleteAccount = async(req,res)=>{
         })
     }
 }
-exports.getUserDetails = async(req,res)=>{
+export async function getUserDetails(req,res){
     try {
         const userId = req.user.id;
         if(!userId)return res.status(400).json({
@@ -173,7 +174,7 @@ exports.getUserDetails = async(req,res)=>{
         })      
     }
 }
-exports.getEnrolledCourses = async(req,res)=>{
+export async function getEnrolledCourses(req,res){
     try {
         const userId = req.user.id;
         console.log("USERID" ,userId)
@@ -235,7 +236,7 @@ exports.getEnrolledCourses = async(req,res)=>{
     }
 }
 
-exports.instructorDashboard = async(req,res)=>{
+export async function instructorDashboard(req,res){
     try {
         const courseDetails = await Course.find({instructor:req.user.id})
         const courseData = courseDetails.map((course)=>{

@@ -1,8 +1,10 @@
-const jwt = require("jsonwebtoken")
-const dotenv = require("dotenv");
-dotenv.config();
+// import { verify } from "jsonwebtoken";
+import pkg from 'jsonwebtoken'
+import { config } from "dotenv"
+const {verify} = pkg
+config();
 // auth
-exports.verifyAuth =async (req,res,next)=>{
+export async function verifyAuth(req,res,next){
     try {
         // extract token 
 
@@ -28,7 +30,7 @@ exports.verifyAuth =async (req,res,next)=>{
         // validate the token 
         try {
             // console.log(process.env.)
-            const decode = await jwt.verify(token,process.env.JWT_SECRET_key);
+            const decode = await verify(token,process.env.JWT_SECRET_key);
             console.log("Decode : ",decode);
             req.user = decode
             console.log("Fine")
@@ -55,7 +57,7 @@ exports.verifyAuth =async (req,res,next)=>{
 }
 
 // isStudent
-exports.isStudent = (req,res,next)=>{
+export function isStudent(req,res,next){
     try {
         if(req.user.accountType !=="Student"){
             return res.status(400).json({
@@ -73,7 +75,7 @@ exports.isStudent = (req,res,next)=>{
 }
 
 // isInstructor
-exports.isInstructor = (req,res,next)=>{
+export function isInstructor(req,res,next){
     try {
         if(req.user.accountType !=="Instructor"){
             return res.status(400).json({
@@ -91,7 +93,7 @@ exports.isInstructor = (req,res,next)=>{
 }
 
 // isAdmin
-exports.isAdmin = (req,res,next)=>{
+export function isAdmin(req,res,next){
     try {
         if(req.user.accountType !=="Admin"){
             return res.status(400).json({

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+import { Schema, model } from "mongoose";
 
-const userSchema = mongoose.Schema({
+const userSchema = Schema({
     firstName:{
         required:true,
         type:String,
@@ -31,7 +31,7 @@ const userSchema = mongoose.Schema({
         required:true,
     },
     additionalDetails:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:Schema.Types.ObjectId,
         ref:"Profile",
         required:true,
     },
@@ -47,15 +47,15 @@ const userSchema = mongoose.Schema({
     },
     courses:[
         {
-            type:mongoose.Schema.Types.ObjectId,
+            type:Schema.Types.ObjectId,
             ref:"Course",
         }
     ],
     courseProgress:[
         {
-            type:mongoose.Schema.Types.ObjectId,
+            type:Schema.Types.ObjectId,
             ref:"CourseProgress"
         }
     ],
 })
-module.exports = mongoose.model("User",userSchema);
+export default model("User",userSchema);

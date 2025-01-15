@@ -1,9 +1,9 @@
-const Section = require("../models/Section");
-const SubSection = require("../models/SubSection");
-const { imageUploadToCloudinary } = require("../utils/imgeUploader");
+import Section from "../models/Section.js";
+import SubSection from "../models/SubSection.js";
+import { imageUploadToCloudinary } from "../utils/imgeUploader.js";
 
 
-exports.createSubSection = async (req,res)=>{
+export async function createSubSection(req,res){
     try {
         //fetch data from request body
         // extract file/video
@@ -52,7 +52,7 @@ exports.createSubSection = async (req,res)=>{
 // HW:Delete 
 
 
-exports.updateSubSection = async(req,res)=>{
+export async function updateSubSection(req,res){
     try {
         const { sectionId, subSectionId, title, desc} = req.body
         const subSection = await SubSection.findById(subSectionId)
@@ -99,7 +99,7 @@ exports.updateSubSection = async(req,res)=>{
         })
     }
 }
-exports.deleteSubSection = async (req,res)=>{
+export async function deleteSubSection(req,res){
     try {
         const { subSectionId, sectionId } = req.body
         await Section.findByIdAndUpdate({_id:sectionId},{

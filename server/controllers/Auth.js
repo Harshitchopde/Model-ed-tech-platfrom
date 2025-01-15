@@ -1,14 +1,14 @@
-const OTP = require("../models/OTP.js");
-const Profile = require("../models/Profile.js");
-const User = require("../models/User.js");
-const bcrypt = require('bcrypt');
-const otpGenerator = require("otp-generator")
-const jwt = require('jsonwebtoken');
-const { passwordUpdated } = require("../mails/templates/passwordUpdate.js");
-const mailSender = require("../utils/mailSender.js");
-
+import OTP from "../models/OTP.js";
+import Profile from "../models/Profile.js";
+import User from "../models/User.js";
+import { genSaltSync, hashSync, compare, hash as _hash } from 'bcrypt';
+import { generate } from "otp-generator";
+import pkg from 'jsonwebtoken';
+import { passwordUpdated } from "../mails/templates/passwordUpdate.js";
+import mailSender from "../utils/mailSender.js";
+const { sign} = pkg
 // send otp
-exports.sendOTP = async (req, res) => {
+export async function sendOTP(req, res) {
     try {
         const { email } = req.body;
         // check if user already exist in db
@@ -21,7 +21,7 @@ exports.sendOTP = async (req, res) => {
         }
 
         // generate otp
-        let otp = otpGenerator.generate(6, {
+        let otp = generate(6, {
             lowerCaseAlphabets: false,
             upperCaseAlphabets: false,
             specialChars: false,
@@ -30,7 +30,7 @@ exports.sendOTP = async (req, res) => {
         let result = await OTP.findOne({ otp });
         // inefficient process
         while (result) {
-            otp = otpGenerator.generate(6, {
+            otp = generate(6, {
                 lowerCaseAlphabets: false,
                 upperCaseAlphabets: false,
                 specialChars: false,
@@ -56,7 +56,7 @@ exports.sendOTP = async (req, res) => {
     }
 }
 // sigin up
-exports.signUp = async (req, res) => {
+export async function signUp(req, res) {
     try {
         // get request para 
         const { firstName,
@@ -114,8 +114,8 @@ exports.signUp = async (req, res) => {
         }
         //hash password
         const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(password, salt);
+        const salt = genSaltSync(saltRounds);
+        const hash = hashSync(password, salt);
         // create the user profile
         const profileOfUser =await Profile.create({
            
@@ -154,7 +154,7 @@ exports.signUp = async (req, res) => {
 
 
 // login
-exports.login = async(req,res)=>{
+export async function login(req,res){
    try {
      // get data form req body
      const {email,password} = req.body;
@@ -168,7 +168,7 @@ exports.login = async(req,res)=>{
          })
      }
      // check [password]
-     const match = await bcrypt.compare(password, checkUser.password);
+     const match = await compare(password, checkUser.password);
      if(!match){
          return res.status(400).json({
              success:false,
@@ -176,7 +176,7 @@ exports.login = async(req,res)=>{
          })
      }
      // create JWT token
-     const token =jwt.sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,
+     const token =sign({ id:checkUser._id,accountType: checkUser.accountType ,password:checkUser.password,email:checkUser.email }, process.env.JWT_SECRET_key,
         {
             expiresIn:"24h",
         }
@@ -205,7 +205,7 @@ exports.login = async(req,res)=>{
 }
 
 //changePassword
-exports.changePassword = async(req,res)=>{
+export async function changePassword(req,res){
     console.log("CHANGE PASSWORD RUN...")
     try {
         // Get user data from req.user
@@ -216,7 +216,7 @@ exports.changePassword = async(req,res)=>{
         const { oldPassword, newPassword } = req.body
     
         // Validate old password
-        const isPasswordMatch = await bcrypt.compare(
+        const isPasswordMatch = await compare(
           oldPassword,
           userDetails.password
         )
@@ -230,7 +230,7 @@ exports.changePassword = async(req,res)=>{
         console.log("2")
     
         // Update password
-        const encryptedPassword = await bcrypt.hash(newPassword, 10)
+        const encryptedPassword = await _hash(newPassword, 10)
         const updatedUserDetails = await User.findByIdAndUpdate(
           req.user.id,
           { password: encryptedPassword },

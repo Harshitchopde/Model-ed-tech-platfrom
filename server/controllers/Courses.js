@@ -1,15 +1,15 @@
-const Course = require("../models/Course");
-const Category = require("../models/Category");
-const User = require("../models/User");
-const { imageUploadToCloudinary } = require("../utils/imgeUploader");
-const { populate } = require("dotenv");
-const CourseProgress = require("../models/CourseProgress");
-const { convertSecToDuration } = require("../utils/secToDur");
-const Section = require("../models/Section");
-const SubSection = require("../models/SubSection");
+import Course from "../models/Course.js";
+import Category from "../models/Category.js";
+import User from "../models/User.js";
+import { imageUploadToCloudinary } from "../utils/imgeUploader.js";
+import { populate } from "dotenv";
+import CourseProgress from "../models/CourseProgress.js";
+import { convertSecToDuration }  from "../utils/secToDur.js";
+import Section from "../models/Section.js";
+import SubSection from "../models/SubSection.js";
 
 
-exports.createCourse = async (req, res) => {
+export async function createCourse(req, res) {
      console.log("CREATE COURSE ");
      
     try {
@@ -133,7 +133,7 @@ exports.createCourse = async (req, res) => {
 }
 
 // edit courses 
-exports.editCourse = async (req, res) => {
+export async function editCourse(req, res) {
     try {
         const { courseId } = req.body;
         const updates = req.body;
@@ -202,7 +202,7 @@ exports.editCourse = async (req, res) => {
         })
     }
 }
-exports.getAllCourse = async (req, res) => {
+export async function getAllCourse(req, res) {
     try {
         const allCourses = await Course.find({
             status: "Published"
@@ -232,7 +232,7 @@ exports.getAllCourse = async (req, res) => {
 }
 
 // getCourseDetails
-exports.getCourseDetails = async (req, res) => {
+export async function getCourseDetails(req, res) {
     try {
         const { courseId } = req.body;
         // find the courseDetails
@@ -289,7 +289,7 @@ exports.getCourseDetails = async (req, res) => {
     }
 }
 
-exports.getFullCourseDetails = async (req, res) => {
+export async function getFullCourseDetails(req, res) {
     try {
         const { courseId } = req.body
         const userId = req.user.id
@@ -365,7 +365,7 @@ exports.getFullCourseDetails = async (req, res) => {
 }
 
 // Get a list of Course for a given Instructor
-exports.getInstructorCourse = async (req, res) => {
+export async function getInstructorCourse(req, res) {
     try {
         const instructorId = req.user.id;
 
@@ -387,7 +387,7 @@ exports.getInstructorCourse = async (req, res) => {
 }
 // Delete the Course
 
-exports.deleteCourse = async (req,res)=>{
+export async function deleteCourse(req,res){
     try {
         const {courseId} = req.body;
 

@@ -1,7 +1,7 @@
-const SubSection = require("../models/SubSection");
-const CourseProgress = require("../models/CourseProgress")
+import SubSection from "../models/SubSection.js";
+import CourseProgress from "../models/CourseProgress.js";
 
-exports.updateCourseProgress = async (req,res)=>{
+export async function updateCourseProgress(req,res){
     try {
         const { courseId, subsectionId } = req.body
         const userId = req.user.id;

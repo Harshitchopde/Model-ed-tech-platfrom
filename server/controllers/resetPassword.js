@@ -1,9 +1,9 @@
-const User = require("../models/User")
-const mailSender =require("../utils/mailSender")
-const bcrypt = require("bcrypt")
-const crypto = require("crypto")
+import User from "../models/User.js"
+import mailSender from "../utils/mailSender.js"
+import { genSaltSync, hashSync } from "bcrypt"
+import { randomUUID } from "crypto"
 //resetPasswordToken -> mail send work it do
-exports.resetPasswordToken = async(req,res)=>{
+export async function resetPasswordToken(req,res){
     try {
         // get email of the user
         const {email} = req.body;
@@ -16,7 +16,7 @@ exports.resetPasswordToken = async(req,res)=>{
             })
         }
         // generate token
-        const token  = crypto.randomUUID()
+        const token  = randomUUID()
         // update user by adding token and expires time
         const updateDetail = await User.findOneAndUpdate({email},
                                         {
@@ -49,7 +49,7 @@ exports.resetPasswordToken = async(req,res)=>{
 }
 
 // resetPassword  -> Db mai password update 
-exports.resetPassword =async (req,res)=>{
+export async function resetPassword(req,res){
     try {
         // get req data
         const {password ,conformPassword, token} = req.body;
@@ -83,8 +83,8 @@ exports.resetPassword =async (req,res)=>{
         }
         // hash password
         const saltRounds = 10
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(password,salt);
+        const salt = genSaltSync(saltRounds);
+        const hash = hashSync(password,salt);
         // update the pasword in Db 
         const userUpdate = await User.findOneAndUpdate({token},
                                                     {

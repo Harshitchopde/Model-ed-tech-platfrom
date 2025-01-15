@@ -1,11 +1,11 @@
 
-const Course = require("../models/Course")
-const Section = require("../models/Section");
-const SubSection = require("../models/SubSection");
+import Course from "../models/Course.js";
+import Section from "../models/Section.js";
+import SubSection from "../models/SubSection.js";
 
 
 
-exports.createSection =async (req,res)=>{
+export async function createSection(req,res){
     try {
         // fetch data
          const {sectionName,courseId} = req.body;
@@ -46,7 +46,7 @@ exports.createSection =async (req,res)=>{
         
     }
 }
-exports.updateSection = async (req,res)=>{
+export async function updateSection(req,res){
     try {
         const {sectionName, sectionId,courseId} = req.body;
         // const {sectionId} = req.params;
@@ -87,7 +87,7 @@ exports.updateSection = async (req,res)=>{
         
     }
 }
-exports.deleteSection = async(req,res) =>{
+export async function deleteSection(req,res){
     try {
        
         const {courseId ,sectionId} = req.body;

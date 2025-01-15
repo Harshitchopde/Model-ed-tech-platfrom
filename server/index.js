@@ -1,21 +1,22 @@
-const express = require("express")
+import express, { json } from "express";
+
+
+import courseRoutes from "./routes/Course.js";
+import paymentRoutes from "./routes/Payements.js";
+import profileRoutes from "./routes/Profile.js";
+import usersRoutes from "./routes/Users.js";
+import { connect } from './configs/database.js';
+import { cloudinaryConnect } from './configs/cloudinary.js';
+
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import fileUpload from "express-fileupload";
+import { config } from "dotenv";
 const app = express();
-
-const courseRoutes = require("./routes/Course")
-const paymentRoutes = require("./routes/Payements")
-const profileRoutes = require("./routes/Profile")
-const usersRoutes = require("./routes/Users");
-const { connect } = require('./configs/database');
-const { cloudinaryConnect } = require('./configs/cloudinary');
-
-const cookieParser = require("cookie-parser")
-const cors = require("cors")
-const fileUpload = require("express-fileupload")
-const dotenv = require("dotenv")
-dotenv.config();
+config();
 const PORT = process.env.PORT || 4000;
 
-app.use(express.json())
+app.use(json())
 app.use(cookieParser())
 app.use(cors(
     {

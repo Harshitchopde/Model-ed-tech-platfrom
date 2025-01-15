@@ -1,43 +1,17 @@
-const express = require("express");
-const {
-  createCourse,
-  editCourse,
-  getAllCourse,
-  getCourseDetails,
-  getFullCourseDetails,
-  getInstructorCourse,
-  deleteCourse
-} = require("../controllers/Courses")
+import { Router } from "express";
+import { createCourse, editCourse, getAllCourse, getCourseDetails, getFullCourseDetails, getInstructorCourse, deleteCourse } from "../controllers/Courses.js";
 
-const {
-    categoryPageDetails,
-    createCategory,
-    showAllCategory
-} = require("../controllers/Category")
+import { categoryPageDetails, createCategory, showAllCategory } from "../controllers/Category.js";
 
-const {
- createSection,
- updateSection,
- deleteSection,
-} = require("../controllers/Section")
+import { createSection, updateSection, deleteSection } from "../controllers/Section.js";
 
-const {
-    createSubSection,
-    deleteSubSection,
-    updateSubSection
-} = require("../controllers/SubSection")
+import { createSubSection, deleteSubSection, updateSubSection } from "../controllers/SubSection.js";
 
-const {
-    createRatingAndReview,
-    getAllRatings,
-    getAverageRating,
-} = require("../controllers/RatingAndReview")
+import { createRatingAndReview, getAllRatings, getAverageRating } from "../controllers/RatingAndReview.js";
 
-const {
-    updateCourseProgress
-} = require("../controllers/CourseProgress");
-const { isStudent, isInstructor, verifyAuth, isAdmin } = require("../middlewares/auth");
-const routes = express.Router();
+import { updateCourseProgress } from "../controllers/CourseProgress.js";
+import { isStudent, isInstructor, verifyAuth, isAdmin } from "../middlewares/auth.js";
+const routes = Router();
 
 // *******************************************************************************************
 //                                      Course Routes
@@ -86,4 +60,4 @@ routes.post("/getCategoryPageDetails",categoryPageDetails)
 routes.post("/createRating",verifyAuth,isStudent,createRatingAndReview)
 routes.get("/getAverageRating",getAverageRating)
 routes.get("/getReviews",getAllRatings);
-module.exports = routes;
+export default routes;

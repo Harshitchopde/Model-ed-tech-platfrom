@@ -1,4 +1,4 @@
-exports.getRandomInt = async (max) =>{
+export async function getRandomInt(max){
     return Math.floor(Math.random()*max);
 }
 

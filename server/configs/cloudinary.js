@@ -1,5 +1,5 @@
-const cloudinary = require("cloudinary").v2
-exports.cloudinaryConnect =async ()=>{
+import { v2 as cloudinary } from "cloudinary";
+export async function cloudinaryConnect(){
     try {
         await cloudinary.config({
             cloud_name: process.env.CLOUD_NAME, 

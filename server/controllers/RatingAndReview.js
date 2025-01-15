@@ -1,11 +1,11 @@
 
 
 // create rating
-const mongoose = require("mongoose")
-const Course = require("../models/Course")
-const RatingAndReview = require("../models/RatingAndReview")
+import { Schema } from "mongoose";
+import Course from "../models/Course.js";
+import RatingAndReview from "../models/RatingAndReview.js";
 
-exports.createRatingAndReview = async(req,res)=>{
+export async function createRatingAndReview(req,res){
     try {
         const Userid = req.user.id;
         const {courseId,rating,review} = req.body;
@@ -60,14 +60,14 @@ exports.createRatingAndReview = async(req,res)=>{
         
     }
 }
-exports.getAverageRating = async(req,res)=>{
+export async function getAverageRating(req,res){
     try {
         const {courseId}= req.body;
 
         const result = await RatingAndReview.aggregate([
             {
                 $match:{
-                    course:new  mongoose.Schema.Types.ObjectId(courseId)
+                    course:new  Schema.Types.ObjectId(courseId)
                 }
             },
             {
@@ -97,7 +97,7 @@ exports.getAverageRating = async(req,res)=>{
     }
 }
 
-exports.getAllRatings = async(req,res)=>{
+export async function getAllRatings(req,res){
     try {
         const allRating = await RatingAndReview.find({})
                                                 .populate({

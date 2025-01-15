@@ -1,7 +1,7 @@
-const express = require("express");
-const { capturePayment, verifySignature } = require("../controllers/Payments");
-const routes = express.Router();
+import { Router } from "express";
+import { capturePayment, verifySignature } from "../controllers/Payments.js";
+const routes = Router();
 
 routes.post("/capturePayments",capturePayment)
 routes.post("/verifySignature",verifySignature)
-module.exports = routes;
+export default routes;

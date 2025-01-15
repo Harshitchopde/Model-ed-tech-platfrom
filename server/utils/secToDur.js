@@ -1,4 +1,4 @@
-function convertSecToDuration(timeSecond){
+export function convertSecToDuration(timeSecond){
     const  hh = Math.floor(timeSecond/3600)
     const mm = Math.floor((timeSecond%3600)/60);
     const ss = Math.floor((timeSecond%3600)%60)
@@ -9,6 +9,4 @@ function convertSecToDuration(timeSecond){
     }else return   `${ss}s`;
 
 }
-module.exports = {
-    convertSecToDuration
-}
+// export default {convertSecToDuration}
