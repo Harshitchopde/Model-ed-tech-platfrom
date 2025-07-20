@@ -135,6 +135,7 @@ const CourseInformationForm = () => {
     formData.append("instructions", JSON.stringify(data.courseRequirements))
     formData.append("thumbnailImage", data.courseImage)
     setLoading(true)
+    console.log("Form Data ",formData)
     const result  = await addCourseDetails(formData,token);
 
     console.log("Result : ",result)
@@ -150,7 +151,7 @@ const CourseInformationForm = () => {
       <form 
        onSubmit={handleSubmit(onSubmit)}
        className=' space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6'>
-        {/* Course title */}
+        {/* Course title */}  
         <div className=" flex flex-col space-y-2">
           <label htmlFor="courseTitle"
             className=' text-sm text-richblack-5'>
@@ -237,14 +238,14 @@ const CourseInformationForm = () => {
         />
 
         {/* Course Thumbnail Image */}
-        <Upload
+        {/* <Upload
           name="courseImage"
           label="Course Thumbnail"
           register={register}
           setValue={setValue}
           errors={errors}
           editData={editCourse? course?.thumbnail : null}
-         />
+         /> */}
         {/* Benefits of the course */}
         <div className=" flex flex-col space-y-2">
           <label htmlFor="courseBenefits" className='  text-sm text-richblack-5 '> Benefits of the Course <sup className=' text-pink-300'>*</sup></label>

@@ -61,7 +61,7 @@ const Verify_email = () => {
                 )}
                 containerStyle={{
                   justifyContent: "space-between",
-                  gap: "0 6px",
+                  gap: "0 3px",
                 }}
                 />
                <button type='submit' className=' mt-6 bg-yellow-50 rounded-[0.5rem] w-full text-richblack-900 p-2'>Verify Email</button>

@@ -37,12 +37,17 @@ const Upload = ({
       }
     }
 
+    // const { getRootProps,getInputProps,isDragActive} = useDropzone({
+    //   accept:!video ? { "image/*":[".jpeg","jpg",".png"]}
+    //   : { "video/*":[".mp4"]},
+    //   onDrop
+    // })
     const { getRootProps,getInputProps,isDragActive} = useDropzone({
-      accept:!video ? { "image/*":[".jpeg","jpg",".png"]}
+      accept:!video ? { "image/*":[".jpeg",".jpg",".png"]}
       : { "video/*":[".mp4"]},
       onDrop
     })
-
+ console.log("getRoot pops ",getRootProps,getInputProps,isDragActive)
     useEffect(()=>{
       register(name, { required : true})
        // eslint-disable-next-line react-hooks/exhaustive-deps

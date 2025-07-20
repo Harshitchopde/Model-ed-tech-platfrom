@@ -23,7 +23,7 @@ export async function createCourse(req, res) {
             price, category } = req.body;
         let { status} = req.body
         // get thumbnail file
-        const thumbnail = req.files.thumbnailImage;
+        const thumbnail = req.files?.thumbnailImage;
         console.log("File ",req.files);
         // convert the stringify tag and instruction to array
         const tag = JSON.parse(_tags)
@@ -38,8 +38,8 @@ export async function createCourse(req, res) {
             !price ||
             !category ||
             !tag ||
-            !instructions ||
-            !thumbnail) {
+            !instructions
+             ) {
             return res.status(400).json({
                 success: false,
                 body: {
@@ -85,7 +85,11 @@ export async function createCourse(req, res) {
             })
         }
         // Upload Image to Cloudinary
-        const imageUpload = await imageUploadToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        let imageUpload;
+        if(thumbnail){
+
+            imageUpload = await imageUploadToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        }
         console.log("Upload : ", imageUpload)
         //  Create a new course with the given details
         const newCourse = await Course.create({
@@ -97,7 +101,7 @@ export async function createCourse(req, res) {
             tag,
             status,
             instructions,
-            thumbnail: imageUpload.secure_url,
+            thumbnail: imageUpload?.secure_url,
             category: CategoryDetails._id,
         })
         // add the couse to the instructor user

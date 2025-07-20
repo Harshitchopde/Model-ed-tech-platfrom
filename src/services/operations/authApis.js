@@ -13,7 +13,7 @@ const {
 }= authEndpoints
 
 export function sendOTP(email,navigate){
-    console.log(SEND_OTP_API)
+    // console.log(SEND_OTP_API)
     return async(dispatch)=>{
         const toastId = toast.loading("Loading...");
         dispatch(setLoading(true));
